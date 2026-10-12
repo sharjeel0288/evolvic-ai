@@ -72,7 +72,7 @@ export default function ScrollVideo() {
       ) : (
         <div className="sticky top-0 h-[100svh] overflow-hidden">
           <div className="rframe scan absolute inset-0 overflow-hidden border border-cyan/25 bg-bg shadow-[inset_0_0_120px_rgba(91,124,255,.15)]">
-            <Video ref={video} name="scrub" webm={false} className="rvid absolute inset-0 h-full w-full object-cover object-[70%_50%] opacity-75 max-md:opacity-70" preload="auto" />
+            <Video data-fx-media ref={video} name="scrub" webm={false} className="rvid absolute inset-0 h-full w-full object-cover object-[70%_50%] opacity-75 max-md:opacity-70" preload="auto" />
             <div aria-hidden className="rsweep pointer-events-none absolute inset-y-0 -left-1/2 w-1/2 bg-gradient-to-r from-transparent via-[rgba(169,156,255,.22)] to-transparent opacity-0 mix-blend-screen" />
             <ParticleNetwork className="opacity-35 mix-blend-screen" density={0.00004} linkDist={110} />
             <div aria-hidden className="absolute inset-0 bg-gradient-to-r from-bg/95 via-bg/70 to-bg/10 max-md:bg-gradient-to-t max-md:from-bg/95 max-md:via-bg/75 max-md:to-bg/30" />
@@ -81,7 +81,7 @@ export default function ScrollVideo() {
           {beats.map((b, i) => {
             const last = i === N - 1;
             return (
-              <div key={b.h} className="rw invisible absolute inset-x-site top-[50%] z-10 -translate-y-1/2 opacity-0"><div className="max-w-3xl">
+              <div key={b.h} className="rw invisible absolute inset-x-site top-[50%] z-10 -translate-y-1/2 opacity-0"><div data-fx-text className="max-w-3xl">
                 <p className="mono mb-5" data-nodecode>{last ? "Evolviq AI" : `${String(i + 1).padStart(2, "0")} / ${String(N - 1).padStart(2, "0")}`}</p>
                 <h3 className={`!text-[clamp(30px,4.6vw,76px)] [text-shadow:0_2px_30px_#000] ${last ? "grad-chars" : ""}`} aria-label={b.h}>
                   {b.h.split(" ").map((w, k) => <span key={k} aria-hidden className="w">{[...w].map((c, z) => <i key={z}>{c}</i>)} </span>)}

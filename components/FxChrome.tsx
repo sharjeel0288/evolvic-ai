@@ -75,7 +75,7 @@ export default function FxChrome() {
             if (!st.isActive) return;
             setActive(i);
             fx.setShape(+(s.dataset.shape ?? 0));
-            fx.setX(+(s.dataset.x ?? 1.7));
+            fx.setX(+(s.dataset.x ?? 1.7)); fx.scene = s;
             if (!s.dataset.keepChaos) gsap.to(fx.chaos, { value: 0, duration: 1, overwrite: "auto" });
             if (!fx.introDone || reduce) return;
             gsap.to([lbT.current, lbB.current], { height: s.dataset.lb ? "9vh" : 0, duration: 1.3, ease: "expo.inOut", overwrite: "auto" });
@@ -108,8 +108,10 @@ export default function FxChrome() {
       {scenes.length > 1 && (
         <nav aria-label="Sections" className="fixed right-[1.6vw] top-1/2 z-40 hidden -translate-y-1/2 flex-col gap-3 lg:flex">
           {scenes.map((s, i) => (
-            <button key={i} type="button" aria-label={s.name} aria-current={i === active ? "true" : undefined} data-c=" " onClick={() => jump(s.el)}
-              className={`h-[9px] w-[9px] rounded-full transition-all duration-500 ${i === active ? "scale-150 bg-cyan shadow-[0_0_12px_#a59cff]" : "bg-[#1b1e24] shadow-[var(--well)]"}`} />
+            <button key={i} type="button" aria-label={`Jump to section: ${s.name}`} aria-current={i === active ? "true" : undefined} data-c=" " onClick={() => jump(s.el)}
+              className={`group relative h-[9px] w-[9px] rounded-full transition-all duration-500 ${i === active ? "!h-[13px] !w-[13px] -mx-[2px] bg-cyan shadow-[0_0_12px_#a59cff]" : "bg-[#1b1e24] shadow-[var(--well)]"}`} >
+              <span className={`pointer-events-none absolute right-6 top-1/2 -translate-y-1/2 whitespace-nowrap rounded-full bg-black/80 px-2.5 py-1 text-[12px] font-medium text-white backdrop-blur transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100 ${i === active ? "opacity-70" : "opacity-0"}`}>{s.name}</span>
+            </button>
           ))}
         </nav>
       )}
@@ -117,6 +119,8 @@ export default function FxChrome() {
       <div ref={cr} aria-hidden className="cur-ring" />
       {loading && (
         <div ref={ld} aria-hidden className="ld fixed inset-0 z-[70] flex flex-col items-center justify-center gap-6 bg-[#050505] [clip-path:circle(150%_at_50%_50%)]">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/brand/logo-white.svg" alt="" width={231} height={50} className="ld-fade h-[50px] w-auto" />
           <div ref={ldn} className="ld-fade display text-[clamp(80px,18vw,260px)] leading-none text-transparent [-webkit-text-stroke:1px_rgba(255,255,255,.4)]">000</div>
           <div className="ld-fade well h-1.5 w-[min(360px,70vw)] overflow-hidden rounded-md"><i ref={ldb} className="block h-full w-0 bg-cyan shadow-[0_0_14px_#a59cff]" /></div>
           <p className="ld-fade mono">Evolviq AI · Smarter Systems. Better Business.</p>

@@ -181,3 +181,7 @@ select.field option { background: var(--c-s1); color: var(--c-ink); }
 @keyframes evq-sheen { from { translate: 0 0; } to { translate: 420% 0; } }
 
 html { overflow-x: clip; }
+
+/* Media beside text in dark scenes: when the layout stacks / media is full-bleed (text column ≥70% wide),
+   ParticleField flags the scene with [data-fx-stack] and the media goes translucent so the shape reads through. */
+[data-fx-stack] [data-fx-media] { opacity: .34 !important; -webkit-mask-image: linear-gradient(180deg, #000 0%, rgba(0,0,0,.55) 60%, transparent 100%); mask-image: linear-gradient(180deg, #000 0%, rgba(0,0,0,.55) 60%, transparent 100%); transition: opacity .6s ease; }

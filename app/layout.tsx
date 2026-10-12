@@ -21,7 +21,6 @@ export const metadata: Metadata = {
   title: { default: "AI Automation Company & Business AI Solutions | Evolviq AI", template: "%s" },
   description: "Evolviq AI builds AI agents, voice receptionists, chatbots, CRM automations and custom AI solutions that help businesses work smarter and respond faster.",
   applicationName: SITE.name,
-  icons: { icon: "/icon.svg" },
   openGraph: { type: "website", siteName: SITE.name, locale: "en_US", images: [{ url: "/og.png", width: 1200, height: 630, alt: "Evolviq AI — Smarter Systems. Better Business." }] },
   twitter: { card: "summary_large_image", images: ["/og.png"] },
   robots: { index: true, follow: true },

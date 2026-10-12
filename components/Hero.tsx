@@ -46,7 +46,7 @@ export default function Hero() {
 
   return (
     <section ref={ref} className="hero-grad relative isolate min-h-[100svh] overflow-hidden" data-theme="dark" aria-labelledby="hero-h" data-scene data-shape="0" data-x="1.7" data-name="Signal">
-      <div aria-hidden className="h-plate plate-mask absolute inset-0 -z-10 opacity-40 mix-blend-screen">
+      <div aria-hidden data-fx-media className="h-plate plate-mask absolute inset-0 -z-10 opacity-40 mix-blend-screen">
         <Video name="hero-loop" className="kb h-full w-full object-cover" autoPlay loop preload="metadata" />
       </div>
       <div aria-hidden className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_25%_60%,rgba(7,0,64,.55),transparent_60%)]" />

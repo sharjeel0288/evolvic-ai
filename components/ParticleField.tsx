@@ -126,6 +126,12 @@ export default function ParticleField() {
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(50, 1, 0.1, 100);
     const sh = shapes(N);
+    // horizontal extent per shape (99.5th percentile of |x|) → used to fit wide shapes on narrow/portrait screens
+    const EXT = sh.map((a) => { const xs: number[] = []; for (let q = 0; q < a.length; q += 9) xs.push(Math.abs(a[q])); xs.sort((m, n) => m - n); return xs[Math.floor(xs.length * 0.995)] || 1; });
+    // 5: sample the real brand wordmark (async; falls back to typed wordmark until loaded)
+    const li = new window.Image(); li.decoding = "async";
+    li.onload = () => { const P = raster(1100, 238, 150, (x) => x.drawImage(li, 0, 0, 1100, 238)); if (P.length < 50) return; const f = glyph(P, 0.3), a = new Float32Array(N * 3); for (let i = 0; i < N; i++) { const q = f(i, R()); a[i * 3] = q[0]; a[i * 3 + 1] = q[1]; a[i * 3 + 2] = q[2]; } sh[5] = a; EXT[5] = 3.6; };
+    li.src = "/brand/logo-white.svg";
     const g = new THREE.BufferGeometry();
     g.setAttribute("position", new THREE.BufferAttribute(new Float32Array(N * 3), 3));
     const A = new THREE.BufferAttribute(sh[0].slice(), 3), B = new THREE.BufferAttribute(sh[0].slice(), 3);
@@ -184,7 +190,11 @@ export default function ParticleField() {
       camera.position.x += (mx * 0.7 - camera.position.x) * 0.04;
       camera.position.y += (-my * 0.45 - camera.position.y) * 0.04;
       camera.lookAt(0, 0, 0);
-      pts.position.x += (fx.state.gx - pts.position.x) * 0.05;
+      const halfW = Math.tan((camera.fov * Math.PI) / 360) * camera.position.z * camera.aspect;
+      pts.position.x += ((anc ? anc.cx * halfW : fx.state.gx) - pts.position.x) * 0.05;
+      // fit the active shape inside the viewport width (phones/tablets in portrait)
+      const fit = Math.max(0.3, Math.min(1, (halfW * (anc ? anc.w * 0.95 : 0.86)) / EXT[cur]));
+      pts.scale.setScalar(pts.scale.x + (fit - pts.scale.x) * 0.06);
       if (FLAT.has(cur) && U.uMix.value > 0.35) { let r = pts.rotation.y; r = (((r + Math.PI) % TAU) + TAU) % TAU - Math.PI; pts.rotation.y = r + (mx * 0.35 - r) * 0.05; }
       else pts.rotation.y += 0.0016 + vel * 0.01 + mx * 0.0008;
       pts.rotation.x += (-my * 0.2 - pts.rotation.x) * 0.04;
@@ -192,7 +202,38 @@ export default function ParticleField() {
       FU.uS.value = window.scrollY / Math.max(1, document.body.scrollHeight);
       renderer.render(scene, camera);
     };
-    const tick = () => { if (running) render(); };
+    // Hide + pause the field while paper (light) bands dominate the viewport; resume on dark bands.
+    const LIGHT = '[data-theme="light"]:not(nav), .section:not([data-theme="dark"])';
+    let frame = 0, onLight = false, hiddenAt = 0;
+    // Layout-driven anchor: in dark scenes with media beside text, park the shape over the measured text column.
+    let anc: { cx: number; w: number } | null = null, stacked: HTMLElement | null = null;
+    const anchor = () => {
+      const vw = window.innerWidth, vh = window.innerHeight, s = (document.elementFromPoint(vw / 2, vh / 2)?.closest("[data-scene]") as HTMLElement | null) || fx.scene;
+      let best: DOMRect | null = null, bs = 0;
+      if (s) s.querySelectorAll<HTMLElement>("[data-fx-text]").forEach((t) => {
+        const r = t.getBoundingClientRect(); if (!r.width || r.bottom < 0 || r.top > vh) return;
+        const vis = Math.min(r.bottom, vh) - Math.max(r.top, 0), op = +getComputedStyle(t.closest("article,[data-fx-text]") || t).opacity;
+        const sc = vis * (op || 0.01) * (1 - Math.abs((r.top + r.bottom) / 2 / vh - 0.5)); if (sc > bs) { bs = sc; best = r; }
+      });
+      const r = best as DOMRect | null, side = !!r && r.width < vw * 0.7;
+      anc = side && r ? { cx: ((r.left + r.width / 2) / vw) * 2 - 1, w: r.width / vw } : null;
+      const st = s && r && !side ? s : null;
+      if (st !== stacked) { stacked?.removeAttribute("data-fx-stack"); st?.setAttribute("data-fx-stack", ""); stacked = st; }
+    };
+    const probe = () => {
+      anchor();
+      const x = window.innerWidth / 2, H = window.innerHeight;
+      let n = 0;
+      for (const f of [0.3, 0.5, 0.75]) { const el = document.elementFromPoint(x, H * f); if (el && el.closest(LIGHT) && !el.closest("header")) n++; }
+      const l = n >= 2;
+      if (l !== onLight) { onLight = l; cv.style.opacity = l ? "0" : "1"; hiddenAt = performance.now(); fx.light = l; }
+    };
+    const tick = () => {
+      if (!running) return;
+      if (++frame % 6 === 0) probe();
+      if (onLight && performance.now() - hiddenAt > 600) return; // faded out: stop rendering
+      render();
+    };
     if (reduce) { camera.position.z = fx.base; render(); }
     else gsap.ticker.add(tick);
     const vis = () => { running = !document.hidden; };
@@ -207,5 +248,5 @@ export default function ParticleField() {
       g.dispose(); renderer.dispose(); fx.ready = false;
     };
   }, []);
-  return <canvas ref={ref} aria-hidden className="pointer-events-none fixed inset-0 z-0 h-full w-full opacity-0 transition-opacity duration-1000" />;
+  return <canvas ref={ref} aria-hidden className="pointer-events-none fixed inset-0 z-0 h-full w-full opacity-0 transition-opacity duration-500" />;
 }

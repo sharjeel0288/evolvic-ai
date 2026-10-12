@@ -29,11 +29,11 @@ export default function VideoCta({ title, copy, primary, secondary, id = "cta-h"
     <section ref={ref} className="relative isolate flex min-h-[100svh] items-center justify-center overflow-x-clip px-site py-[14vh] text-center" aria-labelledby={id}
       data-scene data-shape="5" data-x="0" data-name="Let's talk">
       <div className="cta-frame scan absolute inset-0 -z-10 overflow-hidden rounded-[32px] [clip-path:inset(3%_3%_round_32px)]" aria-hidden>
-        <Video name="cta-loop" className="kb absolute inset-0 h-full w-full object-cover opacity-60 mix-blend-screen" autoPlay loop preload="none" />
+        <Video data-fx-media name="cta-loop" className="kb absolute inset-0 h-full w-full object-cover opacity-60 mix-blend-screen" autoPlay loop preload="none" />
         <ParticleNetwork className="opacity-30" density={0.00004} color="142,123,255" accent="92,225,230" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_110%,rgba(91,76,245,.75),rgba(29,18,110,.55)_35%,rgba(7,0,64,.45)_60%,rgba(0,0,0,.8)_85%)]" />
       </div>
-      <div className="scrim relative">
+      <div data-fx-text className="scrim relative">
         <h2 id={id} className="cta-h mx-auto max-w-5xl" aria-label={title}>
           {title.split(" ").map((w, k) => <span key={k} aria-hidden className="w">{[...w].map((c, z) => <i key={z}>{c}</i>)} </span>)}
         </h2>

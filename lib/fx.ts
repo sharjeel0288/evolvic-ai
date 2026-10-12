@@ -11,7 +11,11 @@ export const fx = {
   chaos: { value: 0 },
   pulse: { value: -9 },
   ready: false,
+  /** true while a light (paper) band fills the viewport — particle field is hidden/paused */
+  light: false,
   introDone: false,
+  /** active scene element (set by FxChrome) — ParticleField reads its [data-fx-text] column */
+  scene: null as HTMLElement | null,
   _shape: 0,
   _listeners: new Set<Listener>(),
   setShape(i: number) {
