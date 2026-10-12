@@ -35,7 +35,7 @@ export default function Approach() {
         </div>
         {a.steps.map((s, i) => (
           <article key={s.t} className="ap-card nm flex h-[58svh] w-[78vw] shrink-0 flex-col justify-between p-6 sm:w-[56vw] md:p-8 lg:w-[30vw] motion-reduce:h-auto motion-reduce:w-auto">
-            <span className="ap-num display block text-[clamp(70px,9vw,150px)] leading-none text-transparent [-webkit-text-stroke:1px_rgba(92,225,230,.6)]">{String(i + 1).padStart(2, "0")}</span>
+            <span className="ap-num display block text-[clamp(70px,9vw,150px)] leading-none text-transparent [-webkit-text-stroke:1px_rgba(165,156,255,.6)]">{String(i + 1).padStart(2, "0")}</span>
             <div>
               <p className="mono mb-3">Step {String(i + 1).padStart(2, "0")}</p>
               <h3>{s.t}</h3>

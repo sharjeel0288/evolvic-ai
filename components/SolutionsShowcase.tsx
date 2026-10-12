@@ -7,7 +7,8 @@ import { fx } from "@/lib/fx";
 import { IconTile } from "@/lib/icons";
 import { ArrowUpRight } from "lucide-react";
 
-const SHAPE = [7, 6, 1, 2, 4, 5];
+// particle shape per service: gear, phone, chat, database, agent, globe
+const SHAPE = [8, 9, 10, 11, 12, 13];
 
 /** Original svc(): six solution slides zoom-through in a pinned scene; each slide morphs the particle field. */
 export default function SolutionsShowcase() {

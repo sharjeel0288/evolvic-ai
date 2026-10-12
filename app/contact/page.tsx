@@ -13,8 +13,8 @@ export const metadata = pageMeta("/contact", "Contact Evolviq AI | Discuss Your 
 export default function Contact() {
   return (
     <>
-      <PageHero eyebrow={c.hero.eyebrow} title={c.hero.h1} lead={c.hero.lead} img="/images/laptop.webp" shape={0} />
-      <section className="section grid gap-12 lg:grid-cols-[1fr_1.6fr]" aria-labelledby="f-h" data-scene data-shape="1" data-x="0" data-name="Start here">
+      <PageHero eyebrow={c.hero.eyebrow} title={c.hero.h1} lead={c.hero.lead} img="/images/laptop.webp" shape={16} />
+      <section className="section grid gap-12 lg:grid-cols-[1fr_1.6fr]" aria-labelledby="f-h" data-scene data-shape="17" data-x="0" data-name="Start here">
         <div>
           <SectionHead id="f-h" title={c.form.h2} lead={c.form.intro} className="!mb-10 [&_h2]:!text-[clamp(28px,3.4vw,56px)]" />
           <Reveal className="nm p-8">
@@ -27,7 +27,7 @@ export default function Contact() {
         </div>
         <Reveal><ContactForm /></Reveal>
       </section>
-      <section id="faqs" className="section scroll-mt-24" aria-labelledby="faq-h" data-scene data-shape="2" data-x="0" data-name="FAQs">
+      <section id="faqs" className="section scroll-mt-24" aria-labelledby="faq-h" data-scene data-shape="10" data-x="0" data-name="FAQs">
         <SectionHead id="faq-h" eyebrow="FAQs" title="Contact FAQs" />
         <Faq items={c.faqs} />
       </section>

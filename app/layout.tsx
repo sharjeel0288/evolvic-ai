@@ -1,6 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Geist_Mono, Instrument_Serif } from "next/font/google";
-import localFont from "next/font/local";
+import { Geist_Mono, Instrument_Serif, Inter, Sora } from "next/font/google";
 import "./globals.css";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
@@ -9,15 +8,13 @@ import ParticleField from "@/components/ParticleField";
 import FxChrome from "@/components/FxChrome";
 import { SITE } from "@/lib/site";
 
-// Fontshare (ITF Free Font License — free for commercial use), self-hosted woff2
-const satoshi = localFont({ variable: "--font-satoshi", display: "swap", src: [
-  { path: "./fonts/Satoshi-400.woff2", weight: "400" }, { path: "./fonts/Satoshi-500.woff2", weight: "500" }, { path: "./fonts/Satoshi-700.woff2", weight: "700" }] });
-const clash = localFont({ variable: "--font-clash", display: "swap", src: [
-  { path: "./fonts/ClashDisplay-500.woff2", weight: "500" }, { path: "./fonts/ClashDisplay-600.woff2", weight: "600" }] });
+// Google Fonts (SIL OFL 1.1): Sora for headings, Inter for body — closest free matches to the reference's geometric grotesk
+const sora = Sora({ subsets: ["latin"], weight: ["300", "400", "500", "600"], variable: "--font-head", display: "swap" });
+const inter = Inter({ subsets: ["latin"], weight: ["400", "500", "600"], variable: "--font-body", display: "swap" });
 const geistMono = Geist_Mono({ subsets: ["latin"], variable: "--font-geist-mono", display: "swap" });
 const instrument = Instrument_Serif({ subsets: ["latin"], weight: "400", style: ["normal", "italic"], variable: "--font-instrument", display: "swap" });
 
-export const viewport: Viewport = { themeColor: "#07080c", colorScheme: "dark" };
+export const viewport: Viewport = { themeColor: "#000000", colorScheme: "dark" };
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
@@ -41,7 +38,7 @@ const orgLd = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" suppressHydrationWarning className={`${satoshi.variable} ${clash.variable} ${geistMono.variable} ${instrument.variable}`}>
+    <html lang="en" suppressHydrationWarning className={`${inter.variable} ${sora.variable} ${geistMono.variable} ${instrument.variable}`}>
       <head>
         <script dangerouslySetInnerHTML={{ __html: `try{if(sessionStorage.getItem("evq-intro")||matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.classList.add("no-intro")}catch(e){}` }} />
         <noscript><style>{`.ld{display:none!important}`}</style></noscript>

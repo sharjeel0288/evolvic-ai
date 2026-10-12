@@ -12,8 +12,8 @@ export const metadata = pageMeta("/industries", "AI Automation Solutions for Ind
 export default function Industries() {
   return (
     <>
-      <PageHero eyebrow={d.hero.eyebrow} title={d.hero.h1} lead={d.hero.lead} img="/images/connections.webp" shape={6} />
-      <section className="section" aria-label="Industries" data-scene data-shape="4" data-x="0" data-name="Industries">
+      <PageHero eyebrow={d.hero.eyebrow} title={d.hero.h1} lead={d.hero.lead} img="/images/connections.webp" shape={13} />
+      <section className="section" aria-label="Industries" data-scene data-shape="13" data-x="0" data-name="Industries">
         <ul className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
           {d.items.map((it, i) => (
             <li key={it.k}><Reveal delay={(i % 3) * 0.08} className="h-full">

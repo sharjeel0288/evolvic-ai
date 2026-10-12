@@ -45,6 +45,10 @@ The six unknown-origin `design-*.webp` images taken from the supplied HTML have 
 - `og.png` — generated from ai-network.webp.
 
 ## Fonts
-- Satoshi, Clash Display — Indian Type Foundry via Fontshare, ITF Free Font License (free for commercial use). Self-hosted in `app/fonts/`.
-- Instrument Serif, Geist Mono — SIL Open Font License 1.1, loaded via next/font/google.
-- Icons: lucide-react — ISC License.
+- Sora (headings) and Inter (body): SIL Open Font License 1.1, loaded via next/font/google.
+- Instrument Serif and Geist Mono: SIL Open Font License 1.1, loaded via next/font/google.
+- Satoshi and Clash Display are no longer used, and their files have been removed.
+- Icons: lucide-react (ISC License). The particle shapes are sampled from lucide icon outlines (`lib/iconShapes.ts`, generated from the lucide package).
+
+## Design reference
+The layout and visual direction are modelled on "AI Agency Website" by RedDevs on Dribbble (https://dribbble.com/shots/27798807-AI-Agency-Website). Screenshots are kept in `/workspace/evolviq/ref/` for internal reference only and are **not** shipped in the site.

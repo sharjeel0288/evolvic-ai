@@ -52,7 +52,7 @@ export default function Workflow() {
         <div className="sys-card nm p-6 md:p-8">
           <svg viewBox="0 0 900 220" className="w-full" role="img" aria-label={`Workflow: ${s.nodes.join(" to ")}`}>
             <defs>
-              <linearGradient id="wl" x1="0" x2="1"><stop offset="0" stopColor="#5ce1e6" /><stop offset="1" stopColor="#8e7bff" /></linearGradient>
+              <linearGradient id="wl" x1="0" x2="1"><stop offset="0" stopColor="#a59cff" /><stop offset="1" stopColor="#5b4cf5" /></linearGradient>
               <filter id="glow"><feGaussianBlur stdDeviation="4" /></filter>
             </defs>
             <path d={d} stroke="rgba(255,255,255,.08)" strokeWidth="2" fill="none" />
@@ -60,11 +60,11 @@ export default function Workflow() {
             {pts.map((p, i) => (
               <g key={i} className="transition-all duration-500" style={{ opacity: i <= stage ? 1 : 0.35 }}>
                 <circle cx={p.x} cy={p.y} r="26" fill="#0d0f13" stroke={i <= stage ? "url(#wl)" : "rgba(255,255,255,.15)"} strokeWidth="1.5" />
-                <circle cx={p.x} cy={p.y} r={i === stage ? 9 : 5} fill={i <= stage ? "#5ce1e6" : "#5ce1e6"} filter={i === stage ? "url(#glow)" : undefined} />
+                <circle cx={p.x} cy={p.y} r={i === stage ? 9 : 5} fill={i <= stage ? "#a59cff" : "#a59cff"} filter={i === stage ? "url(#glow)" : undefined} />
                 <text x={p.x} y={i % 2 ? p.y + 52 : p.y - 40} textAnchor="middle" fill="#ecedf1" fontSize="15" fontFamily="var(--font-geist-mono)" letterSpacing="2">{s.nodes[i].toUpperCase()}</text>
               </g>
             ))}
-            <circle ref={dot} cx={pts[0].x} cy={pts[0].y} r="7" fill="#5ce1e6" filter="url(#glow)" />
+            <circle ref={dot} cx={pts[0].x} cy={pts[0].y} r="7" fill="#a59cff" filter="url(#glow)" />
           </svg>
           <p className="mono mt-4 text-center" data-nodecode aria-live="off">Stage · {s.nodes[stage]}</p>
           <p className="mono mt-2 text-center !text-mut">{s.micro}</p>

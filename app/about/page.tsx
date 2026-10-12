@@ -13,7 +13,7 @@ export const metadata = pageMeta("/about", "About Evolviq AI | Practical AI for 
 export default function About() {
   return (
     <>
-      <PageHero eyebrow={a.hero.eyebrow} title={a.hero.h1} lead={a.hero.lead} img="/images/human-ai.webp" shape={5} />
+      <PageHero eyebrow={a.hero.eyebrow} title={a.hero.h1} lead={a.hero.lead} img="/images/human-ai.webp" shape={6} />
       <section className="section grid gap-14 lg:grid-cols-2" aria-labelledby="who-h" data-scene data-shape="1" data-x="1.9" data-name="Who we are">
         <div>
           <SectionHead id="who-h" title={a.who.h2} className="!mb-8" />

@@ -45,12 +45,14 @@ export default function Hero() {
   }, { scope: ref });
 
   return (
-    <section ref={ref} className="relative isolate min-h-[100svh] overflow-hidden" aria-labelledby="hero-h" data-scene data-shape="0" data-x="1.7" data-name="Signal">
+    <section ref={ref} className="hero-grad relative isolate min-h-[100svh] overflow-hidden" data-theme="dark" aria-labelledby="hero-h" data-scene data-shape="0" data-x="1.7" data-name="Signal">
       <div aria-hidden className="h-plate plate-mask absolute inset-0 -z-10 opacity-40 mix-blend-screen">
         <Video name="hero-loop" className="kb h-full w-full object-cover" autoPlay loop preload="metadata" />
       </div>
-      <div aria-hidden className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_25%_50%,rgba(7,8,12,.75),transparent_65%)]" />
+      <div aria-hidden className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_25%_60%,rgba(7,0,64,.55),transparent_60%)]" />
       <div className="ghost" aria-hidden>AI</div>
+      {/* reference-style tick dial, slowly rotating around the particle brain */}
+      <div aria-hidden className="dial pointer-events-none absolute right-[9%] top-1/2 -z-[5] h-[min(46vw,520px)] w-[min(46vw,520px)] -translate-y-1/2 animate-[spin_60s_linear_infinite] opacity-30 max-md:hidden motion-reduce:animate-none" />
       <div className="warp" aria-hidden />
       <div className="relative flex min-h-[100svh] flex-col justify-center px-site pb-16 pt-28 md:pb-20 md:pt-32">
         <div className="h-copy scrim relative max-w-[min(56rem,100%)] origin-left">
@@ -66,7 +68,7 @@ export default function Hero() {
           </div>
           <ul className="hero-in mt-10 grid max-w-3xl gap-3 sm:grid-cols-3 [@media(min-width:768px)_and_(max-height:780px)]:hidden">
             {h.tiles.map((t) => (
-              <li key={t.t} className="nm flex items-start gap-3 p-4">
+              <li key={t.t} className="nm glass flex items-start gap-3 p-4">
                 <IconTile k={t.t} size={18} className="!h-9 !w-9 shrink-0 !rounded-[10px]" />
                 <span><b className="card-title block !text-[15px]">{t.t}</b><span className="mt-0.5 block text-[13px] leading-snug text-mut">{t.d}</span></span>
               </li>

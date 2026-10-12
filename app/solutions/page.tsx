@@ -14,7 +14,7 @@ export const metadata = pageMeta("/solutions", "AI Automation Services & Custom 
 export default function Solutions() {
   return (
     <>
-      <PageHero eyebrow={s.hero.eyebrow} title={s.hero.h1} lead={s.hero.lead} img="/images/fibers.webp" shape={1} />
+      <PageHero eyebrow={s.hero.eyebrow} title={s.hero.h1} lead={s.hero.lead} img="/images/fibers.webp" shape={12} />
       <section className="section" aria-labelledby="int-h"><SectionHead id="int-h" title={s.intro.h2} lead={s.intro.p} /></section>
       {services.map((sv, i) => (
         <section key={sv.id} id={sv.id} className="section scroll-mt-24 grid items-center gap-12 lg:grid-cols-2" aria-labelledby={`${sv.id}-h`} data-scene data-shape={String([7, 3, 6, 1, 2, 5, 4][i])} data-x={i % 2 ? "-1.9" : "1.9"} data-name={sv.short}>

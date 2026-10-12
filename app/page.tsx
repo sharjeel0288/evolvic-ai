@@ -68,7 +68,7 @@ export default function Home() {
 
       <Manifesto />
 
-      <section className="section relative isolate" aria-labelledby="in-h" data-scene data-shape="2" data-x="1.9" data-name="Insights">
+      <section className="section relative isolate" aria-labelledby="in-h" data-scene data-shape="14" data-x="1.9" data-name="Insights">
         <ParticleNetwork className="-z-10 opacity-40" density={0.00005} />
         <SectionHead id="in-h" eyebrow={home.insights.eyebrow} title={home.insights.h2} lead={home.insights.intro} />
         <ul className="divide-y divide-white/5 border-y border-white/5">

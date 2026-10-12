@@ -18,7 +18,7 @@ export default function Phases() {
         <p className="lead mt-3 !text-gold md:mt-4">{p.s}</p>
         <p className="mt-3 text-ink/80 max-md:text-[15px] md:mt-4">{p.d}</p>
       </div>
-      <div className="zs-img nm relative min-h-[210px] overflow-hidden md:min-h-[360px]">
+      <div data-theme="dark" className="zs-img nm relative min-h-[210px] overflow-hidden md:min-h-[360px]">
         <Image src={imgs[i]} alt="" fill sizes="(max-width:768px) 100vw, 45vw" className="object-cover opacity-60" />
         <div className="absolute inset-0 bg-gradient-to-t from-[#0d0f13] via-[#0d0f13]/60 to-transparent" />
         <div className="relative flex h-full min-h-[210px] flex-col justify-end p-6 md:min-h-[360px] md:p-8">
@@ -29,7 +29,7 @@ export default function Phases() {
     </article>
   ));
   return (
-    <ZoomStack steps={steps} onStep={(n) => { fx.pulse.value = -3 + n * 2; }} aria-label="Implementation phases"
+    <ZoomStack steps={steps} onStep={(n) => { fx.pulse.value = -3 + n * 2; }} aria-label="Implementation phases" data-theme="light"
       data-scene="" data-shape="2" data-x="-1.7" data-name="Phases" />
   );
 }

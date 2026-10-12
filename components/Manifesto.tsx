@@ -30,7 +30,7 @@ export default function Manifesto() {
   };
   return (
     <section ref={ref} className="relative flex min-h-[100svh] items-center justify-center px-site py-[12vh] text-center" aria-label="Manifesto"
-      data-scene data-shape="5" data-x="0" data-name="Manifesto">
+      data-scene data-shape="2" data-x="0" data-name="Manifesto">
       <div className="mf-wrap flash scrim relative mx-auto max-w-5xl" onPointerMove={move} onPointerLeave={(e) => e.currentTarget.style.setProperty("--fx", "-999px")}>
         <h2 className="!text-[clamp(30px,4.6vw,80px)]" aria-label={home.manifesto.h}>
           <span aria-hidden>{words.map((w, i) => <span key={i} className="wd mr-[.25em] inline-block">{w}</span>)}</span>

@@ -35,14 +35,14 @@ export default function Mosaic() {
     });
   }, { scope: ref });
   return (
-    <section ref={ref} className="relative flex h-[100svh] flex-col justify-center gap-6 overflow-x-clip px-site pb-[6svh] pt-[96px] md:gap-8 md:pb-[8vh] md:pt-[120px] motion-reduce:h-auto motion-reduce:py-[12vh]" aria-labelledby="mo-h"
+    <section ref={ref} className="relative flex h-[100svh] flex-col justify-center gap-6 overflow-x-clip px-site pb-[6svh] pt-[96px] md:gap-8 md:pb-[8vh] md:pt-[120px] motion-reduce:h-auto motion-reduce:py-[12vh]" aria-labelledby="mo-h" data-theme="light"
       data-scene data-shape="4" data-x="0" data-name="Built to scale">
       <h2 id="mo-h" className="mo-h !text-[clamp(30px,4.4vw,76px)]" aria-label={home.mosaic.h2}>
         {home.mosaic.h2.split(" ").map((w, k) => <span key={k} aria-hidden className="w">{[...w].map((c, z) => <i key={z}>{c}</i>)} </span>)}
       </h2>
       <ul className="flex h-[62svh] flex-col gap-2.5 md:h-[58vh] md:flex-row md:gap-3 motion-reduce:h-auto">
         {cards.map((c, i) => (
-          <li key={c.t} className={`mp group relative min-h-0 min-w-0 flex-1 overflow-hidden rounded-3xl border border-white/10 shadow-[var(--raise)] motion-reduce:min-h-[40vh] ${on === i ? "on" : ""}`}>
+          <li key={c.t} data-theme="dark" className={`mp group relative min-h-0 min-w-0 flex-1 overflow-hidden rounded-3xl border border-white/10 shadow-[var(--raise)] motion-reduce:min-h-[40vh] ${on === i ? "on" : ""}`}>
             <Image src={c.img} alt="" fill sizes="(max-width:768px) 100vw, 60vw" className={`object-cover transition-opacity duration-700 ${on === i ? "opacity-95" : "opacity-45"} motion-reduce:opacity-90`} />
             <div className="absolute inset-0 bg-gradient-to-b from-bg/5 to-bg/90" />
             <span className={`display absolute bottom-3 left-5 z-[2] text-xs tracking-[.2em] text-[#c6ccd8] transition-opacity ${on === i ? "opacity-0" : ""}`}>{String(i + 1).padStart(2, "0")}</span>

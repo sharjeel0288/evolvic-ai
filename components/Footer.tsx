@@ -5,8 +5,8 @@ import { footer, services } from "@/lib/content";
 
 export default function Footer() {
   return (
-    <footer className="relative overflow-hidden bg-s1/60 px-site pb-10 pt-24">
-      <div aria-hidden className="pointer-events-none absolute -bottom-[5vw] left-0 right-0 select-none text-center font-display text-[17vw] font-semibold leading-none tracking-[-.04em] text-transparent [-webkit-text-stroke:1px_rgba(169,156,255,.08)]">Evolviq</div>
+    <footer className="foot-grad relative overflow-hidden px-site pb-10 pt-24" data-theme="dark">
+      <div aria-hidden className="pointer-events-none absolute -bottom-[5vw] left-0 right-0 select-none text-center font-display text-[17vw] font-semibold leading-none tracking-[-.04em] text-transparent [-webkit-text-stroke:1px_rgba(214,212,253,.1)]">Evolviq</div>
       <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-iris/40 to-transparent" />
       <div className="relative grid gap-12 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
         <div>

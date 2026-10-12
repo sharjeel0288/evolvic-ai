@@ -40,7 +40,7 @@ export default function ScrollVideo() {
     // Beat-locked scrub: the clip is split into N+1 segments; segment i plays exactly while beat i is on screen.
     const seek = () => { if (v.duration) { const t = Math.min(v.duration - 0.05, st.t * v.duration); if (Math.abs(v.currentTime - t) > 0.02) v.currentTime = t; } };
     tl.eventCallback("onUpdate", seek);
-    const SH = [3, 1, 6, 4, 0];
+    const SH = [3, 3, 2, 1, 4]; // chaos → structure → order
     let lastBeat = -1;
     gsap.utils.toArray<HTMLElement>(".rw").forEach((e, i) => {
       const at = 1.0 + i;

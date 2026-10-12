@@ -26,7 +26,7 @@ export const fx = {
   },
 };
 
-export const SHAPES = ["Core", "Network", "Neural", "Helix", "Lattice", "Glyph", "Clusters", "Stack"] as const;
+export const SHAPES = ["Brain", "Pipeline", "Neural", "Chaos", "Order", "Wordmark", "Clusters", "Stack", "Gear", "Voice", "Chat", "Database", "Agent", "Globe", "Chart", "Document", "Handshake", "Mail"] as const;
 
 export function reducedMotion() {
   return typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;

@@ -30,9 +30,9 @@ export default function Nav() {
   return (
     <header className={`fixed inset-x-0 top-0 z-50 px-3 transition-all duration-500 sm:px-5 ${scrolled ? "pt-2.5" : "pt-4"}`}>
       
-      <nav aria-label="Primary" className={`relative mx-auto flex max-w-[1240px] items-center justify-between gap-6 overflow-hidden rounded-full border py-2 pl-5 pr-2 backdrop-blur-xl transition-all duration-500 ${scrolled ? "border-white/10 bg-[rgba(13,15,21,.72)] shadow-[0_1px_0_rgba(255,255,255,.06)_inset,0_20px_50px_-20px_rgba(0,0,0,.8)]" : "border-white/[.06] bg-[rgba(13,15,21,.35)]"}`}>
+      <nav aria-label="Primary" data-theme="light" className={`relative mx-auto flex max-w-[1240px] items-center justify-between gap-6 overflow-hidden rounded-full border py-2 pl-5 pr-2 backdrop-blur-xl transition-all duration-500 ${scrolled ? "border-black/5 !bg-white/95 shadow-[0_18px_40px_-22px_rgba(7,0,64,.45)]" : "border-black/5 !bg-white/90"}`}>
         <motion.span aria-hidden style={{ scaleX: bar }} className="absolute inset-x-6 bottom-0 h-px origin-left bg-gradient-to-r from-iris via-violet to-cyan opacity-70" />
-        <Logo />
+        <Logo dark />
         <ul className="hidden items-center gap-1 lg:flex">
           {NAV.map((n) => {
             const active = n.href === "/" ? path === "/" : path.startsWith(n.href);
@@ -48,7 +48,7 @@ export default function Nav() {
         </ul>
         <div className="flex items-center gap-3">
           <Link href="/contact" className="btn p hidden !px-5 !py-2.5 !text-[14px] sm:inline-flex">Book a Consultation</Link>
-          <button type="button" className="grid h-10 w-10 place-items-center rounded-full border border-white/10 bg-white/[.04] lg:hidden" aria-expanded={open} aria-controls="mnav" aria-label={open ? "Close menu" : "Open menu"} onClick={() => setOpen((o) => !o)}>
+          <button type="button" className="grid h-10 w-10 place-items-center rounded-full bg-[#0a0a0a] text-white lg:hidden [&_span_span]:!bg-white" aria-expanded={open} aria-controls="mnav" aria-label={open ? "Close menu" : "Open menu"} onClick={() => setOpen((o) => !o)}>
             <span className="relative block h-3 w-5">
               <span className={`absolute left-0 h-px w-5 bg-ink transition-all ${open ? "top-1.5 rotate-45" : "top-0"}`} />
               <span className={`absolute left-0 h-px w-5 bg-ink transition-all ${open ? "top-1.5 -rotate-45" : "top-3"}`} />

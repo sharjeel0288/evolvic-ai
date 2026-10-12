@@ -36,7 +36,7 @@ export default function ContactForm() {
       <fieldset className="md:col-span-2"><legend className={L}>Preferred way to connect</legend>
         <div className="flex flex-wrap gap-3">{f.connect.map((c, i) => (
           <label key={c} className="flex cursor-pointer items-center gap-2 rounded-full border border-white/10 bg-white/[.03] px-4 py-2.5 text-sm text-ink2 transition-colors hover:border-white/20 has-[:checked]:border-iris/60 has-[:checked]:bg-iris/10 has-[:checked]:text-ink">
-            <input type="radio" name="connect" value={c} defaultChecked={i === 0} className="accent-[#a99cff]" />{c}
+            <input type="radio" name="connect" value={c} defaultChecked={i === 0} className="accent-[#5b4cf5]" />{c}
           </label>))}
         </div>
       </fieldset>
