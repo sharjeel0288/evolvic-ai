@@ -1,0 +1,19 @@
+export const SITE = {
+  name: "Evolviq AI",
+  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.evolviq.ai",
+  tagline: "Smarter Systems. Better Business.",
+  supporting: "AI built around the way your business works.",
+  // TODO: replace with verified details before launch (see content master §13)
+  email: process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "",
+  bookingUrl: process.env.NEXT_PUBLIC_BOOKING_URL ?? "",
+};
+
+export const NAV = [
+  { href: "/", label: "Home" },
+  { href: "/about", label: "About" },
+  { href: "/solutions", label: "Solutions" },
+  { href: "/use-cases", label: "Use Cases" },
+  { href: "/industries", label: "Industries" },
+  { href: "/products", label: "Products" },
+  { href: "/contact", label: "Contact" },
+] as const;

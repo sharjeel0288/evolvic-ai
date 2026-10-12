@@ -1,0 +1,33 @@
+/**
+ * Shared cinematic state between the global WebGL particle field and scroll scenes.
+ * Ported from the original design's `state`/`setShape`/`U` globals.
+ */
+type Listener = (i: number) => void;
+
+export const fx = {
+  state: { z: 7.2, gx: 0 },
+  base: 7.2,
+  mouse: { x: 0, y: 0 },
+  chaos: { value: 0 },
+  pulse: { value: -9 },
+  ready: false,
+  introDone: false,
+  _shape: 0,
+  _listeners: new Set<Listener>(),
+  setShape(i: number) {
+    if (i === this._shape) return;
+    this._shape = i;
+    this._listeners.forEach((l) => l(i));
+  },
+  onShape(l: Listener) { this._listeners.add(l); return () => { this._listeners.delete(l); }; },
+  setX(x: number) {
+    if (typeof window === "undefined") return;
+    this.state.gx = window.innerWidth / window.innerHeight < 1 ? 0 : x;
+  },
+};
+
+export const SHAPES = ["Core", "Network", "Neural", "Helix", "Lattice", "Glyph", "Clusters", "Stack"] as const;
+
+export function reducedMotion() {
+  return typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}

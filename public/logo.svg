@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 40" role="img" aria-label="Evolviq AI">
+  <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5ce1e6"/><stop offset=".55" stop-color="#6f8bff"/><stop offset="1" stop-color="#8e7bff"/></linearGradient></defs>
+  <g fill="none" stroke="url(#g)" stroke-width="2.4" stroke-linecap="round">
+    <path d="M20 4 L34 12 L34 28 L20 36 L6 28 L6 12 Z"/>
+    <path d="M13 14 H27 M13 20 H24 M13 26 H27"/>
+  </g>
+  <circle cx="34" cy="12" r="2.6" fill="#5ce1e6"/>
+  <text x="46" y="27" font-family="'Clash Display', 'Satoshi', 'Helvetica Neue', Arial, sans-serif" font-weight="600" font-size="20" letter-spacing=".5" fill="#ecedf1">Evolviq<tspan fill="url(#g)" dx="6">AI</tspan></text>
+</svg>
