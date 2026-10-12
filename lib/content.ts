@@ -136,12 +136,12 @@ export const home = {
 };
 
 export const services = [
-  { id: "workflow-automation", short: "AI Workflow Automation", slide: "Move repetitive work forward without constant manual input. Automate data entry, task routing, follow-ups, approvals and reporting across your existing business tools.", slideCta: "Explore Workflow Automation", img: "/images/design-network.webp",
+  { id: "workflow-automation", short: "AI Workflow Automation", slide: "Move repetitive work forward without constant manual input. Automate data entry, task routing, follow-ups, approvals and reporting across your existing business tools.", slideCta: "Explore Workflow Automation", img: "/images/fibers.webp",
     h2: "AI Workflow Automation", lead: "Less copying and chasing. More work moving forward.",
     body: ["If your team repeats the same steps each day, those steps are a good place to explore automation. We build connected workflows that can collect information, route tasks, update systems, notify the right person and generate routine reports. AI can help interpret requests or documents where fixed rules alone aren't enough."],
     apps: "Lead routing; data entry; document processing; internal approvals; follow-up sequences; notifications; reporting workflows.",
     note: { k: "Best fit", v: "Teams that use several tools and lose time moving information between them." }, cta: "Automate a Workflow" },
-  { id: "voice-agents", short: "AI Voice Agents & Receptionists", slide: "Give callers a helpful first response—even outside business hours. AI voice agents can answer common questions, collect details, qualify inquiries and assist with appointment booking.", slideCta: "Explore AI Voice Agents", img: "/images/design-wave.webp",
+  { id: "voice-agents", short: "AI Voice Agents & Receptionists", slide: "Give callers a helpful first response—even outside business hours. AI voice agents can answer common questions, collect details, qualify inquiries and assist with appointment booking.", slideCta: "Explore AI Voice Agents", img: "/images/shapes.webp",
     h2: "AI Voice Agents & 24/7 AI Receptionists", lead: "Be ready for the next call, even when your team is busy.",
     body: ["An AI receptionist can answer routine phone inquiries, gather caller details, explain approved service information and help with appointment requests. Depending on your setup, it can also direct urgent or complicated conversations to a person and log relevant details in your CRM.", "We build call flows around your business hours, service questions, escalation rules and preferred customer experience—not a one-size-fits-all script."],
     apps: "After-hours call answering; appointment requests; call qualification; customer FAQs; call summaries; team transfers.",

@@ -4,6 +4,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import Button from "./Button";
+import Video from "./Video";
 import ParticleNetwork from "./ParticleNetwork";
 import { fx } from "@/lib/fx";
 
@@ -25,12 +26,10 @@ export default function VideoCta({ title, copy, primary, secondary, id = "cta-h"
     });
   }, { scope: ref });
   return (
-    <section ref={ref} className="relative isolate flex min-h-[100svh] items-center justify-center px-site py-[14vh] text-center" aria-labelledby={id}
+    <section ref={ref} className="relative isolate flex min-h-[100svh] items-center justify-center overflow-x-clip px-site py-[14vh] text-center" aria-labelledby={id}
       data-scene data-shape="0" data-x="0" data-name="Let's talk">
       <div className="cta-frame scan absolute inset-0 -z-10 overflow-hidden rounded-[32px] [clip-path:inset(3%_3%_round_32px)]" aria-hidden>
-        <video className="kb absolute inset-0 h-full w-full object-cover opacity-50 mix-blend-screen" autoPlay muted loop playsInline preload="none" poster="/videos/cta-loop-poster.webp">
-          <source src="/videos/cta-loop.mp4" type="video/mp4" />
-        </video>
+        <Video name="cta-loop" className="kb absolute inset-0 h-full w-full object-cover opacity-60 mix-blend-screen" autoPlay loop preload="none" />
         <ParticleNetwork className="opacity-30" density={0.00004} color="142,123,255" accent="92,225,230" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(7,8,12,.7),rgba(7,8,12,.95)_75%)]" />
       </div>

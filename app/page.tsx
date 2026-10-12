@@ -46,7 +46,7 @@ export default function Home() {
 
       <section className="section grid gap-6 lg:grid-cols-2" aria-label="Products and about" data-scene data-shape="6" data-x="0" data-name="Products">
         <Reveal className="nm relative overflow-hidden p-10 md:p-14">
-          <Image src="/images/design-orb.webp" alt="" fill sizes="(max-width:1024px) 100vw, 50vw" className="kb object-cover opacity-25" />
+          <Image src="/images/orb.webp" alt="" fill sizes="(max-width:1024px) 100vw, 50vw" className="kb object-cover opacity-25" />
           <div className="relative">
             <IconTile k="Products" className="mb-6" /><p className="mono mb-4">{home.products.eyebrow}</p>
             <h2 className="!text-[clamp(28px,3.6vw,60px)]">{home.products.h2}</h2>

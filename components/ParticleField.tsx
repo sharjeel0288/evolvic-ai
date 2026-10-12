@@ -58,7 +58,7 @@ export default function ParticleField() {
     const cv = ref.current!;
     const reduce = reducedMotion();
     const MOB = window.matchMedia("(max-width: 760px)").matches;
-    const N = MOB ? 3000 : 8000;
+    const N = window.innerWidth < 500 ? 2200 : MOB ? 3500 : 8000;
     let renderer: THREE.WebGLRenderer;
     try { renderer = new THREE.WebGLRenderer({ canvas: cv, antialias: false, powerPreference: "high-performance", alpha: false }); }
     catch { cv.style.display = "none"; return; }

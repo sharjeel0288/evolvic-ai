@@ -53,8 +53,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <div className="field-dim" aria-hidden />
         <SmoothScroll />
         <Nav />
-        <main id="main" className="relative z-[2]">{children}</main>
-        <div className="relative z-[2]"><Footer /></div>
+        <main id="main" className="relative z-[2] overflow-x-clip">{children}</main>
+        <div className="relative z-[2] overflow-x-clip"><Footer /></div>
         <FxChrome />
         <div className="grain" aria-hidden />
       </body>

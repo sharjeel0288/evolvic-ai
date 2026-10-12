@@ -19,6 +19,7 @@ export default function GlowCard({ children, className = "" }: { children: React
     <motion.div onMouseMove={onMove} onMouseLeave={() => { px.set(0.5); py.set(0.5); }}
       style={reduce ? undefined : { rotateX: rx, rotateY: ry, transformPerspective: 900 }}
       className={`nm ${className}`}>
+      <span aria-hidden className="sheen" />
       {children}
     </motion.div>
   );

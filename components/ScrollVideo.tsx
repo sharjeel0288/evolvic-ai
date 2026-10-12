@@ -6,6 +6,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { useReducedMotion } from "framer-motion";
 import ParticleNetwork from "./ParticleNetwork";
+import Video from "./Video";
 import { home } from "@/lib/content";
 import { fx } from "@/lib/fx";
 
@@ -30,13 +31,23 @@ export default function ScrollVideo() {
   useGSAP(() => {
     if (reduce) return;
     const v = video.current!, st = { t: 0 };
+    if (window.matchMedia("(max-width: 767px)").matches) v.poster = "/videos/scrub-poster-m.webp";
     const tl = gsap.timeline({ defaults: { ease: "power3.out" }, scrollTrigger: { trigger: wrap.current, start: "top top", end: "bottom bottom", scrub: 1.2 } });
     tl.fromTo(".rframe", { clipPath: "inset(22% 30% round 24px)" }, { clipPath: "inset(0% 0% round 0px)", duration: 1.2, ease: "power3.inOut" }, 0)
       .fromTo(".rvid", { scale: 1.35 }, { scale: 1, duration: N + 1.2, ease: "none" }, 0)
       .to(fx.state, { z: () => fx.base * 0.55, duration: N + 0.6, ease: "none" }, 0)
-      .to(st, { t: 1, duration: N + 1.2, ease: "none", onUpdate: () => { if (v.duration) { const t = st.t * (v.duration - 0.05); if (Math.abs(v.currentTime - t) > 0.02) v.currentTime = t; } } }, 0);
+      .to(st, { t: 1 / (N + 1), duration: 1.0, ease: "none" }, 0);
+    // Beat-locked scrub: the clip is split into N+1 segments; segment i plays exactly while beat i is on screen.
+    const seek = () => { if (v.duration) { const t = Math.min(v.duration - 0.05, st.t * v.duration); if (Math.abs(v.currentTime - t) > 0.02) v.currentTime = t; } };
+    tl.eventCallback("onUpdate", seek);
+    const SH = [3, 1, 6, 4, 0];
+    let lastBeat = -1;
     gsap.utils.toArray<HTMLElement>(".rw").forEach((e, i) => {
       const at = 1.0 + i;
+      tl.to(st, { t: (i + 2) / (N + 1), duration: 1, ease: "sine.inOut" }, at)
+        .fromTo(".rsweep", { xPercent: 0, opacity: 0 }, { xPercent: 400, opacity: 1, duration: 0.5, ease: "power2.inOut", immediateRender: false }, at - 0.15)
+        .fromTo(".rvid", { filter: "brightness(1.6) saturate(1.2)" }, { filter: "brightness(1) saturate(1)", duration: 0.4, immediateRender: false }, at - 0.05)
+        .call(() => { const b = tl.scrollTrigger && tl.scrollTrigger.direction < 0 ? i - 1 : i; if (b !== lastBeat && b >= 0) { lastBeat = b; fx.setShape(SH[b % SH.length]); } }, [], at);
       tl.fromTo(e, { autoAlpha: 0, scale: 1.2, y: 40 }, { autoAlpha: 1, scale: 1, y: 0, duration: 0.45 }, at)
         .fromTo(e.querySelectorAll(".w i"), { yPercent: 120 }, { yPercent: 0, stagger: 0.008, duration: 0.4 }, at + 0.05)
         .to(fx.chaos, { value: Math.max(0, 1.1 - i * 0.28), duration: 0.4 }, at);
@@ -61,11 +72,10 @@ export default function ScrollVideo() {
       ) : (
         <div className="sticky top-0 h-[100svh] overflow-hidden">
           <div className="rframe scan absolute inset-0 overflow-hidden border border-cyan/25 bg-bg shadow-[inset_0_0_120px_rgba(91,124,255,.15)]">
-            <video ref={video} className="rvid absolute inset-0 h-full w-full object-cover" muted playsInline preload="auto" poster="/videos/scrub-poster.webp" aria-hidden tabIndex={-1}>
-              <source src="/videos/scrub.mp4" type="video/mp4" />
-            </video>
+            <Video ref={video} name="scrub" webm={false} className="rvid absolute inset-0 h-full w-full object-cover object-[70%_50%] opacity-75 max-md:opacity-70" preload="auto" />
+            <div aria-hidden className="rsweep pointer-events-none absolute inset-y-0 -left-1/2 w-1/2 bg-gradient-to-r from-transparent via-[rgba(169,156,255,.22)] to-transparent opacity-0 mix-blend-screen" />
             <ParticleNetwork className="opacity-35 mix-blend-screen" density={0.00004} linkDist={110} />
-            <div aria-hidden className="absolute inset-0 bg-gradient-to-r from-bg/95 via-bg/70 to-bg/10" />
+            <div aria-hidden className="absolute inset-0 bg-gradient-to-r from-bg/95 via-bg/70 to-bg/10 max-md:bg-gradient-to-t max-md:from-bg/95 max-md:via-bg/75 max-md:to-bg/30" />
           </div>
           <p className="mono absolute left-site top-[14vh] z-10 flex items-center gap-3"><span className="led" />{home.problems.eyebrow}</p>
           {beats.map((b, i) => {

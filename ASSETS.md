@@ -2,16 +2,29 @@
 
 All third-party media is royalty-free and usable commercially without attribution under its license. Credits are listed anyway.
 
-## Videos (`/public/videos`) — Pexels License (https://www.pexels.com/license/)
-| File | Source | Processing |
-|---|---|---|
-| `hero-loop.mp4` + `hero-loop-poster.webp` | "Futuristic 3D Network Animation with Glowing Nodes" by Nicola Narracci — https://www.pexels.com/video/futuristic-3d-network-animation-with-glowing-nodes-33164595/ | 1280px, H.264 CRF 31, 10 s, no audio, hue-shifted to brand cyan, faststart |
-| `scrub.mp4` + `scrub-poster.webp` | "Plexus Of Abstract Geometrical Lines And Figures" — https://www.pexels.com/video/plexus-of-abstract-geometrical-lines-and-figures-3129576/ | 1280px, 24 fps, **all-intra (`-g 1`)** for smooth scroll scrubbing, CRF 30, no audio |
-| `cta-loop.mp4` + `cta-loop-poster.webp` | "Abstract Network of Connection Nodes in Purple" by Nicola Narracci — https://www.pexels.com/video/abstract-network-of-connection-nodes-in-purple-36245009/ | 1280px, CRF 29, no audio |
+## Grading
+All photos and videos are colour-graded with one ffmpeg chain so they match the Midnight Iris palette (violet/aqua):
+`colorbalance=rs=-0.06:gs=-0.03:bs=0.07:rm=-0.04:bm=0.05:rh=-0.03:bh=0.04,eq=saturation=0.88–0.92:contrast=1.05:brightness=-0.03`.
 
-## Photos (`/public/images`) — Pexels License, converted to WebP (≤1600px, q72)
+## Videos (`/public/videos`) — Pexels License (https://www.pexels.com/license/), free for commercial use
+Each clip comes in four files: `name.mp4` (H.264, 1280×720), `name.webm` (VP9), `name-m.mp4` and `name-m.webm` (720×1280 portrait centre crop for phones, picked with `<source media="(max-width:767px)">`). Each also has `name-poster.webp` and `name-poster-m.webp`. All are 24 fps, muted, played inline, with no audio track.
+| File | Source | Notes |
+|---|---|---|
+| hero-loop | "Mesmerizing Abstract Energy Animation Loop" by Colin Jones — https://www.pexels.com/video/mesmerizing-abstract-energy-animation-loop-35262088/ | 10 s excerpt (from 0:20), CRF 28 |
+| scrub | "Vibrant Purple and Blue Particle Explosion" by Nicola Narracci — https://www.pexels.com/video/vibrant-purple-and-blue-particle-explosion-35049014/ | **all-intra `-g 1`** for scroll scrubbing, CRF 31. MP4 only, because a VP9 all-intra encode was 20–28 MB. |
+| cta-loop | "Abstract 3D Glowing Purple Shape Animation" by Nicola Narracci — https://www.pexels.com/video/abstract-3d-glowing-purple-shape-animation-34637934/ | CRF 28 |
+
+## Photos (`/public/images`) — Pexels License, graded, WebP ≤1920px q74
 | File | Pexels photo |
 |---|---|
+| vortex.webp | https://www.pexels.com/photo/36174639/ (Pușcaș Adryan) |
+| data-rain.webp | https://www.pexels.com/photo/12489187/ (Marek Piwnicki) |
+| tunnel.webp | https://www.pexels.com/photo/34997851/ (Carlos Misael Cruz López) |
+| fibers.webp | https://www.pexels.com/photo/8640331/ (Georgie Devlin) |
+| shapes.webp | https://www.pexels.com/photo/33839920/ (Steve A Johnson) |
+| light-tunnel.webp | https://www.pexels.com/photo/14212240/ (Beyza Kaplan) |
+| orb.webp | frame from the cta-loop Pexels video 34637934 |
+| wave.webp | frame from Pexels video https://www.pexels.com/video/34550739/ (Nicola Narracci) |
 | ai-network.webp | https://www.pexels.com/photo/8386440/ |
 | connections.webp | https://www.pexels.com/photo/373543/ |
 | neon-dashboard.webp | https://www.pexels.com/photo/5475750/ |
@@ -25,8 +38,7 @@ All third-party media is royalty-free and usable commercially without attributio
 | experience.webp | https://www.pexels.com/photo/8728382/ |
 | laptop.webp | https://www.pexels.com/photo/1181244/ |
 
-## Extracted from the supplied design (`QuantaloomAI — Cinematic v3.html`)
-`design-core/network/wave/orb/grid/tunnel.webp` were decoded from the base64 images embedded in the client-supplied HTML and re-encoded to WebP. Their original provenance is not documented in that file — **confirm the client holds rights before launch**, or swap for the Pexels images above.
+The six unknown-origin `design-*.webp` images taken from the supplied HTML have been **removed** and replaced with the Pexels images above.
 
 ## Brand
 - `logo.svg`, `icon.svg` — placeholder wordmark/icon created for this project. Replace `public/logo.svg` (used only via `components/Logo.tsx`).

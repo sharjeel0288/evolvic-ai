@@ -8,6 +8,7 @@ import SplitHeading from "./SplitHeading";
 import { home } from "@/lib/content";
 import { fx } from "@/lib/fx";
 import { IconTile } from "@/lib/icons";
+import Video from "./Video";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -45,10 +46,8 @@ export default function Hero() {
 
   return (
     <section ref={ref} className="relative isolate min-h-[100svh] overflow-hidden" aria-labelledby="hero-h" data-scene data-shape="0" data-x="1.7" data-name="Signal">
-      <div aria-hidden className="h-plate plate-mask absolute inset-0 -z-10 opacity-25 mix-blend-screen">
-        <video className="kb h-full w-full object-cover" autoPlay muted loop playsInline preload="metadata" poster="/videos/hero-loop-poster.webp">
-          <source src="/videos/hero-loop.mp4" type="video/mp4" />
-        </video>
+      <div aria-hidden className="h-plate plate-mask absolute inset-0 -z-10 opacity-40 mix-blend-screen">
+        <Video name="hero-loop" className="kb h-full w-full object-cover" autoPlay loop preload="metadata" />
       </div>
       <div aria-hidden className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_25%_50%,rgba(7,8,12,.75),transparent_65%)]" />
       <div className="ghost" aria-hidden>AI</div>
