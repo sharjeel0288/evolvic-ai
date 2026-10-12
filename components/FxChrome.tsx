@@ -64,8 +64,11 @@ export default function FxChrome() {
   useEffect(() => {
     const reduce = reducedMotion();
     let triggers: ScrollTrigger[] = [];
-    const t = setTimeout(() => {
-      const els = Array.from(document.querySelectorAll<HTMLElement>("[data-scene]"));
+    const wire = () => {
+      triggers.forEach((x) => x.kill()); triggers = [];
+      // only the current route's sections (ignore a page still exiting during the transition)
+      const els = Array.from(document.querySelectorAll<HTMLElement>("main [data-scene]")).filter((e) => e.isConnected && e.getClientRects().length > 0); // Next keeps previously visited routes mounted but hidden (display:none) — skip them
+      setActive(0);
       setScenes(els.map((el) => ({ name: el.dataset.name || "", el })));
       els.forEach((s, i) => {
         const trg = s.parentElement?.classList.contains("pin-spacer") ? s.parentElement : s;
@@ -89,9 +92,11 @@ export default function FxChrome() {
         triggers.push(ScrollTrigger.create({ trigger: m, start: "top 92%", once: true, onEnter: () => decode(m, txt) }));
       });
       ScrollTrigger.refresh();
-    }, 120);
+    };
+    // scan after the route renders and again once the page transition has settled
+    const t = setTimeout(wire, 150), t2 = setTimeout(wire, 1100);
     const bars = [lbT.current, lbB.current];
-    return () => { clearTimeout(t); triggers.forEach((x) => x.kill()); triggers = []; gsap.set(bars, { height: 0 }); };
+    return () => { clearTimeout(t); clearTimeout(t2); triggers.forEach((x) => x.kill()); triggers = []; gsap.set(bars, { height: 0 }); };
   }, [path]);
 
   const jump = (el: HTMLElement) => {
@@ -105,7 +110,7 @@ export default function FxChrome() {
     <>
       <div ref={lbT} aria-hidden className="pointer-events-none fixed inset-x-0 top-0 z-[45] h-0 bg-black" />
       <div ref={lbB} aria-hidden className="pointer-events-none fixed inset-x-0 bottom-0 z-[45] h-0 bg-black" />
-      {scenes.length > 1 && (
+      {scenes.length >= 3 && (
         <nav aria-label="Sections" className="fixed right-[1.6vw] top-1/2 z-40 hidden -translate-y-1/2 flex-col gap-3 lg:flex">
           {scenes.map((s, i) => (
             <button key={i} type="button" aria-label={`Jump to section: ${s.name}`} aria-current={i === active ? "true" : undefined} data-c=" " onClick={() => jump(s.el)}

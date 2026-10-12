@@ -65,3 +65,30 @@ Screenshots: `/workspace/evolviq/shots7/` (`qa/` = per-route scroll captures).
 
 ## Build
 - `npm run lint` clean; `npm run build` passes.
+
+---
+# QA — Task 8 (13 Oct 2026, PKT) · screenshots in `/workspace/evolviq/shots8/`
+
+## Particles behind cards: what each component uses
+- **Dark `.nm` cards, everywhere** (Approach steps, Workflow panel, AgentRing, Principles, Products status, hero chips, solution cards on dark bands): **translucent surface**, `rgba(12,12,18,.45)` + `backdrop-filter: blur(8px)` + the existing 1px line/gradient border. The shape reads through while text stays crisp. I chose this over re-layering the canvas because it keeps a single WebGL canvas and works with the pinned/zoomed cards.
+- **`.glass` chips**: already translucent (white 7% + blur 16px), unchanged.
+- **Dark cards on paper bands** (Phases outcome card, Mosaic panels): kept **opaque** (`#0d0f13`). There is no field behind them, and translucency would show as a grey wash.
+- **Images beside text**: the shape is anchored to the measured text column (Task 7). Where the layout stacks, the media drops to 34% opacity with a mask.
+- Light bands: the canvas stays at opacity 0 and paused. Verified on every probed light section at all 4 widths (`light=true op=0`).
+- **Cursor**: the violet dot on the Phases band was the custom cursor. The dot and ring now use `mix-blend-mode: difference` (white on dark, near-black on paper) for contrast on both.
+
+## "Copied from home" audit
+| Issue | Fix |
+|---|---|
+| Right-side section dots showed home's (and every previously visited page's) sections. Next keeps visited routes mounted but hidden, and the scan picked them up. | The dot rail scans only visible `main [data-scene]` elements (`getClientRects().length>0`). It re-scans 150 ms and 1.1 s after each route change, resets the active dot, and is hidden when a page has fewer than 3 sections. Clicking a dot scrolls to that section (tested: dot 3 becomes active on every page). |
+| ScrollTriggers for the shape and chapter were also bound to hidden routes' sections, so the wrong shape/label could fire. | Same visible-only scan; triggers are killed and rebuilt on every scan. |
+| CTA chapter label was "Let's talk" on every page. | The label is now the page's own CTA headline. |
+| Footer had no current-page state. | New `FooterNav` with `aria-current="page"` and an iris marker. |
+| Products page had only one scene. | "Everyday challenges" and "Available today" are now scenes (5 dots). |
+
+Verified per page after client-side navigation:
+- Dots match each page's own sections: home 14, about 7, solutions 10, use-cases 3, industries 3, products 5, contact 3.
+- Header active state, footer active state, page-specific hero shape (6/12/2/13/5/16/0) and unique `<title>` are all correct.
+- Breadcrumbs: the site has none (no design or content spec), so there is nothing to fix there.
+
+Dot screenshots: `shots8/dots/<page>-1280.png`. Section screenshots at 4 widths: `shots8/<section>-<width>.png`.

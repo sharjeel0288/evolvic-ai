@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Logo from "./Logo";
-import { NAV, SITE } from "@/lib/site";
+import FooterNav from "./FooterNav";
+import { SITE } from "@/lib/site";
 import { footer, services } from "@/lib/content";
 
 export default function Footer() {
@@ -16,7 +17,7 @@ export default function Footer() {
         </div>
         <div>
           <h2 className="mb-5 text-[12px] font-medium uppercase tracking-[.14em] text-mut">Navigation</h2>
-          <ul className="space-y-2.5">{NAV.map((n) => <li key={n.href}><Link className="text-[15px] text-ink2 transition-colors hover:text-ink" href={n.href}>{n.label === "About" ? "About Us" : n.label === "Contact" ? "Contact Us" : n.label}</Link></li>)}</ul>
+          <FooterNav />
         </div>
         <div>
           <h2 className="mb-5 text-[12px] font-medium uppercase tracking-[.14em] text-mut">Solutions</h2>

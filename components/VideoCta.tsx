@@ -27,7 +27,7 @@ export default function VideoCta({ title, copy, primary, secondary, id = "cta-h"
   }, { scope: ref });
   return (
     <section ref={ref} className="relative isolate flex min-h-[100svh] items-center justify-center overflow-x-clip px-site py-[14vh] text-center" aria-labelledby={id}
-      data-scene data-shape="5" data-x="0" data-name="Let's talk">
+      data-scene data-shape="5" data-x="0" data-name={title.length > 30 ? title.slice(0, 28).trimEnd() + "…" : title}>
       <div className="cta-frame scan absolute inset-0 -z-10 overflow-hidden rounded-[32px] [clip-path:inset(3%_3%_round_32px)]" aria-hidden>
         <Video data-fx-media name="cta-loop" className="kb absolute inset-0 h-full w-full object-cover opacity-60 mix-blend-screen" autoPlay loop preload="none" />
         <ParticleNetwork className="opacity-30" density={0.00004} color="142,123,255" accent="92,225,230" />

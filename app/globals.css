@@ -74,8 +74,8 @@ body { background: transparent; color: var(--c-ink); font: 400 clamp(15px,1.02vw
 .cur-dot, .cur-ring { position: fixed; top: 0; left: 0; z-index: 80; pointer-events: none; border-radius: 50%; display: none; }
 .has-cursor .cur-dot, .has-cursor .cur-ring { display: flex; }
 .has-cursor body, .has-cursor a, .has-cursor button, .has-cursor summary { cursor: none; }
-.cur-dot { width: 6px; height: 6px; margin: -3px; background: #8f86ea; box-shadow: 0 0 14px #5b4cf5; }
-.cur-ring { width: 32px; height: 32px; margin: -16px; border: 1px solid rgba(255,255,255,.28); align-items: center; justify-content: center; font: 500 10px var(--font-body); letter-spacing: .14em; color: #050505; transition: width .45s var(--ex), height .45s var(--ex), margin .45s var(--ex), background .4s, border-color .4s; }
+.cur-dot { width: 7px; height: 7px; margin: -3.5px; background: #fff; mix-blend-mode: difference; } /* difference → white on dark bands, near-black on paper */
+.cur-ring { width: 32px; height: 32px; margin: -16px; border: 1px solid rgba(255,255,255,.7); mix-blend-mode: difference; align-items: center; justify-content: center; font: 500 10px var(--font-body); letter-spacing: .14em; color: #050505; transition: width .45s var(--ex), height .45s var(--ex), margin .45s var(--ex), background .4s, border-color .4s; }
 .cur-ring.h { width: 52px; height: 52px; margin: -26px; background: rgba(91,76,245,.14); border-color: rgba(143,134,234,.7); }
 .kb { animation: kb 28s ease-in-out infinite alternate; }
 @keyframes kb { from { transform: scale(1.03) translate3d(-1%,0,0); } to { transform: scale(1.14) translate3d(1.5%,-1%,0); } }
@@ -185,3 +185,11 @@ html { overflow-x: clip; }
 /* Media beside text in dark scenes: when the layout stacks / media is full-bleed (text column ≥70% wide),
    ParticleField flags the scene with [data-fx-stack] and the media goes translucent so the shape reads through. */
 [data-fx-stack] [data-fx-media] { opacity: .34 !important; -webkit-mask-image: linear-gradient(180deg, #000 0%, rgba(0,0,0,.55) 60%, transparent 100%); mask-image: linear-gradient(180deg, #000 0%, rgba(0,0,0,.55) 60%, transparent 100%); transition: opacity .6s ease; }
+
+/* Dark surfaces over the particle field are see-through (translucent + blur) so shapes read through them.
+   Dark cards that sit on paper bands keep an opaque fill (no field behind them, avoids grey wash). */
+:root, [data-theme="dark"] { --nm: rgba(12,12,18,.45); }
+[data-theme="dark"] .nm, :root .nm { -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
+[data-theme="light"] .nm, .section:not([data-theme="dark"]) .nm { -webkit-backdrop-filter: none; backdrop-filter: none; }
+.section:not([data-theme="dark"]) [data-theme="dark"].nm, [data-theme="light"] [data-theme="dark"].nm,
+.section:not([data-theme="dark"]) [data-theme="dark"] .nm, [data-theme="light"] [data-theme="dark"] .nm { --nm: #0d0f13; background: #0d0f13; }

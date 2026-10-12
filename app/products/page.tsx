@@ -24,7 +24,7 @@ export default function Products() {
       <PageHero eyebrow={p.eyebrow} title={p.h1} lead={p.copy} img="/images/orb.webp" shape={5} />
 
       {/* light band — what the products are designed around (content: home.problems) */}
-      <section className="section" aria-labelledby="pr-h">
+      <section className="section" aria-labelledby="pr-h" data-scene data-shape="9" data-x="0" data-name="Everyday challenges">
         <div className="grid gap-10 lg:grid-cols-[1fr_1.2fr] lg:items-end">
           <div>
             <p className="mono mb-5">{home.products.eyebrow}</p>
@@ -60,10 +60,10 @@ export default function Products() {
           </div>
           <ul className="grid gap-3">
             {STATUS.map(({ I, t }) => (
-              <li key={t} className="nm glass flex items-center gap-5 p-6">
+              <li key={t} className="nm glass flex flex-wrap items-center gap-x-5 gap-y-2 p-6">
                 <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-white/10"><I size={20} aria-hidden /></span>
                 <span className="card-title flex-1 !text-[18px]">{t}</span>
-                <span className="chip whitespace-nowrap max-sm:!text-[11px]">Published when ready</span>
+                <span className="chip whitespace-nowrap max-sm:ml-16 max-sm:!text-[11px]">Published when ready</span>
               </li>
             ))}
           </ul>
@@ -71,7 +71,7 @@ export default function Products() {
       </section>
 
       {/* light band — available today: custom solutions */}
-      <section className="section" aria-labelledby="now-h">
+      <section className="section" aria-labelledby="now-h" data-scene data-shape="8" data-x="0" data-name="Available today">
         <p className="mono mb-5">{home.solutions.eyebrow}</p>
         <h2 id="now-h" className="max-w-3xl !text-[clamp(28px,3.6vw,56px)]">{home.solutions.h2}</h2>
         <ul className="mt-12 grid gap-4 md:grid-cols-2 lg:grid-cols-3">

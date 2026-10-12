@@ -193,7 +193,7 @@ export default function ParticleField() {
       const halfW = Math.tan((camera.fov * Math.PI) / 360) * camera.position.z * camera.aspect;
       pts.position.x += ((anc ? anc.cx * halfW : fx.state.gx) - pts.position.x) * 0.05;
       // fit the active shape inside the viewport width (phones/tablets in portrait)
-      const fit = Math.max(0.3, Math.min(1, (halfW * (anc ? anc.w * 0.95 : 0.86)) / EXT[cur]));
+      const fit = Math.max(0.2, Math.min(1, (halfW * (anc ? anc.w * 0.85 : 0.86)) / Math.max(EXT[cur], EXT[fx._shape] ?? 0)));
       pts.scale.setScalar(pts.scale.x + (fit - pts.scale.x) * 0.06);
       if (FLAT.has(cur) && U.uMix.value > 0.35) { let r = pts.rotation.y; r = (((r + Math.PI) % TAU) + TAU) % TAU - Math.PI; pts.rotation.y = r + (mx * 0.35 - r) * 0.05; }
       else pts.rotation.y += 0.0016 + vel * 0.01 + mx * 0.0008;
