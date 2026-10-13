@@ -190,6 +190,17 @@ html { overflow-x: clip; }
    Dark cards that sit on paper bands keep an opaque fill (no field behind them, avoids grey wash). */
 :root, [data-theme="dark"] { --nm: rgba(12,12,18,.45); }
 [data-theme="dark"] .nm, :root .nm { -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
-[data-theme="light"] .nm, .section:not([data-theme="dark"]) .nm { -webkit-backdrop-filter: none; backdrop-filter: none; }
-.section:not([data-theme="dark"]) [data-theme="dark"].nm, [data-theme="light"] [data-theme="dark"].nm,
-.section:not([data-theme="dark"]) [data-theme="dark"] .nm, [data-theme="light"] [data-theme="dark"] .nm { --nm: #0d0f13; background: #0d0f13; }
+
+
+
+/* ── Paper mode (Task 9): the WebGL canvas paints the paper bands itself, so particles run on light sections too ── */
+html.fx-paper main [data-theme="light"], html.fx-paper main .section:not([data-theme="dark"]) { background-color: transparent; }
+[data-theme="light"], .section:not([data-theme="dark"]) { --nm: rgba(255,255,255,.64); --c-scrim: rgba(245,245,245,.82); --c-scrim2: rgba(245,245,245,.45); }
+[data-theme="light"] .nm, .section:not([data-theme="dark"]) .nm { border-color: rgba(10,10,10,.08); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
+/* dark panels sitting on paper: semi-translucent smoked glass */
+[data-theme="light"] [data-theme="dark"], .section:not([data-theme="dark"]) [data-theme="dark"] { --nm: rgba(13,15,19,.8); --c-scrim: rgba(0,0,0,.6); --c-scrim2: rgba(0,0,0,.3); }
+[data-theme="light"] [data-theme="dark"].nm, .section:not([data-theme="dark"]) [data-theme="dark"].nm { background: rgba(13,15,19,.8); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
+/* centred copy over a shape (CTA, manifesto): heavier scrim */
+.scrim-strong::before { inset: -18% -14%; background: radial-gradient(closest-side, var(--c-scrim), var(--c-scrim) 45%, var(--c-scrim2) 75%, transparent); }
+.field-dim { transition: opacity .6s ease; }
+html.on-paper .field-dim { opacity: 0; }

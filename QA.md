@@ -92,3 +92,35 @@ Verified per page after client-side navigation:
 - Breadcrumbs: the site has none (no design or content spec), so there is nothing to fix there.
 
 Dot screenshots: `shots8/dots/<page>-1280.png`. Section screenshots at 4 widths: `shots8/<section>-<width>.png`.
+
+---
+# QA — Task 9: particles on paper bands (13 Oct 2026, PKT) · screenshots in `/workspace/evolviq/shots9/`
+
+## How it works
+- **The canvas paints the paper bands.** Each frame, ParticleField measures the visible top-level light bands (up to 6) and passes their screen ranges to the shaders:
+  - Inside a band the fog shader outputs paper (`#f5f5f5` with a faint shape tint).
+  - Light bands become `background: transparent` (`html.fx-paper`, only while the WebGL field runs). Reduced motion and no-WebGL keep the opaque paper fallback.
+- **Per-pixel render mode.** Particle blending is premultiplied (`ONE, ONE_MINUS_SRC_ALPHA`):
+  - On dark it is exactly additive, as before.
+  - On paper it is normal blending in ink colours (`#281c7c` → `#5b4cf5`, with lilac sparkles) at reduced alpha and lower glow.
+  - The switch happens at the band's real edge as it scrolls, so there is no pop.
+- **Dark overlay:** the dark vignette overlay (`.field-dim`) fades out while paper fills the viewport.
+- **Paper cards** (`.nm` on light bands) are white 64% + `blur(8px)` + 1px `rgba(10,10,10,.08)` border.
+- **Dark panels on paper** (Phases outcome card, Mosaic panels) are smoked glass, `rgba(13,15,19,.8)` + blur. On Phases the shape also sits on the measured text column.
+- **Light scrim:** behind copy on paper there is now a soft paper radial (`rgba(245,245,245,.82→.45)`), so ink text stays AA over particles.
+- **Shapes on light bands:** every light scene keeps its own shape. `SectionHead` and the Phases copy carry `data-fx-text`, so two-column light sections (About "Who we are"/"Oversight", solution detail rows, contact form, Phases) park the shape on the text column. Single-column sections centre it.
+
+## Centred copy (CTA on every page, manifesto, heroes on portrait)
+- `data-fx-dim`:
+  - the shape fades to about 30–35% and shrinks to 72% behind the copy;
+  - `.scrim-strong` adds a heavier radial scrim.
+- Applies to:
+  - CTA: `0.3`;
+  - Manifesto: `0.35`;
+  - PageHero and home hero: `data-fx-dim-m` on portrait screens only.
+- Headline and body read crisp at all widths (`check/cta-*`, `check/manifesto-*`).
+
+## Coverage
+- Every scene on all 7 pages at 1280 and 390 (45 + 45 shots).
+- Every light scene at 1440 and 768 (24 + 24). Light shots were re-taken after the vignette fix.
+- Tablet solutions fit, settled: `check/solutions-768-0.5.png`. The chat-bubble shape sits inside the right column, no overflow.

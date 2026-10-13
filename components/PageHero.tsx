@@ -31,7 +31,7 @@ export default function PageHero({ eyebrow, title, lead, img, shape = 0 }: { eye
     });
   }, { scope: ref });
   return (
-    <section ref={ref} className="hero-grad relative isolate flex h-[100svh] items-end overflow-hidden px-site pb-[12vh]" data-theme="dark" data-scene data-shape={String(shape)} data-x="1.9" data-name={eyebrow}>
+    <section ref={ref} className="hero-grad relative isolate flex h-[100svh] items-end overflow-hidden px-site pb-[12vh]" data-theme="dark" data-fx-dim-m="0.35" data-scene data-shape={String(shape)} data-x="1.9" data-name={eyebrow}>
       <div data-fx-media className="ph-plate plate-mask absolute inset-0 -z-10" aria-hidden>
         <Image src={img} alt="" fill priority sizes="100vw" className="kb object-cover opacity-30 mix-blend-screen" />
       </div>

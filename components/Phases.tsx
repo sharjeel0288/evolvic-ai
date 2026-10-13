@@ -10,7 +10,7 @@ const imgs = ["/images/vortex.webp", "/images/data-rain.webp", "/images/orb.webp
 export default function Phases() {
   const steps = home.phases.map((p, i) => (
     <article key={p.t} className="grid w-full items-center gap-5 md:grid-cols-2 md:gap-10">
-      <div className="scrim relative">
+      <div data-fx-text className="scrim relative">
         <p className="num mb-4" data-nodecode>Phase {String(i + 1).padStart(2, "0")} / 04</p>
         <h2 className="!text-[clamp(28px,4.4vw,72px)]" aria-label={p.t}>
           {p.t.split(" ").map((w, k) => <span key={k} aria-hidden className="w">{[...w].map((c, z) => <i key={z}>{c}</i>)} </span>)}

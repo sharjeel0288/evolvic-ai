@@ -101,13 +101,18 @@ vec3 col=mix(vec3(.93,.92,1.),uCol,.3+rnd.x*.6);if(ty>.5&&ty<1.5)col=vec3(1.,.98
 col=mix(col,vec3(1.),clamp(pulse,0.,1.)*.6);
 float al=ty>1.5?.1:(ty>.5?.95*tw*tw:(.55+rnd.y*.45)*tw);
 vC=col;vT=ty;vA=(al+pulse*.4)*uFade;}`;
-const FS = `precision highp float;varying vec3 vC;varying float vA,vT;void main(){vec2 q=gl_PointCoord-.5;float d=length(q);if(d>.5)discard;vec3 c=vC;float a;
+const FS = `precision highp float;uniform vec2 uB[6];uniform float uDpr;varying vec3 vC;varying float vA,vT;
+float paper(){float y=gl_FragCoord.y,l=0.;for(int i=0;i<6;i++){l=max(l,step(uB[i].x,y)*step(y,uB[i].y));}return l;}
+void main(){vec2 q=gl_PointCoord-.5;float d=length(q);if(d>.5)discard;vec3 c=vC;float a;
 if(vT>1.5){a=smoothstep(.5,.4,d)*(.5+.5*smoothstep(.15,.45,d));}
 else if(vT>.5){float fx=max(0.,1.-abs(q.x)*16.)*max(0.,1.-abs(q.y)*2.1),fy=max(0.,1.-abs(q.y)*16.)*max(0.,1.-abs(q.x)*2.1);a=clamp(fx+fy+exp(-d*d*90.),0.,1.);}
 else{float core=exp(-d*d*70.),halo=exp(-d*d*12.)*.5;a=core+halo;c=mix(vC,vec3(1.),core*.55);}
-gl_FragColor=vec4(c,a*vA);}`;
-const FOG = `precision highp float;uniform float uT,uS;uniform vec3 uTint;uniform vec2 uR,uM;float h(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}float n(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);return mix(mix(h(i),h(i+vec2(1,0)),f.x),mix(h(i+vec2(0,1)),h(i+vec2(1,1)),f.x),f.y);}float fbm(vec2 p){float v=0.,a=.5;for(int i=0;i<4;i++){v+=a*n(p);p*=2.;a*=.5;}return v;}
-void main(){vec2 uv=gl_FragCoord.xy/uR;vec2 p=(uv-.5)*vec2(uR.x/uR.y,1.);float f=fbm(p*2.2+vec2(uT*.03,uS*.5)+uM*.2);float g=fbm(p*3.+f*1.5-uT*.02);vec3 c=mix(vec3(.0,.0,.02),uTint*.2,f)*.62;c+=uTint*.3*pow(g,3.)*.5;c*=smoothstep(1.2,.15,length(p));c+=h(gl_FragCoord.xy+uT)*.014;c*=.96+.04*(.5+.5*sin(gl_FragCoord.y*1.5+uT*2.));gl_FragColor=vec4(c,1.);}`;
+float L=paper();a*=vA;
+vec3 ink=mix(vec3(.157,.11,.486),vec3(.357,.298,.961),clamp(vC.r*1.6-.6,0.,1.));ink=mix(ink,vec3(.70,.66,.98),step(.5,vT)*step(vT,1.5)*.5);
+float aL=clamp(a*(vT>1.5?.35:.62),0.,1.);
+gl_FragColor=vec4(c*a*(1.-L)+ink*aL*L,aL*L);}`;
+const FOG = `precision highp float;uniform float uT,uS;uniform vec3 uTint;uniform vec2 uR,uM;uniform vec2 uB[6];float h(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}float n(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);return mix(mix(h(i),h(i+vec2(1,0)),f.x),mix(h(i+vec2(0,1)),h(i+vec2(1,1)),f.x),f.y);}float fbm(vec2 p){float v=0.,a=.5;for(int i=0;i<4;i++){v+=a*n(p);p*=2.;a*=.5;}return v;}
+void main(){vec2 uv=gl_FragCoord.xy/uR;vec2 p=(uv-.5)*vec2(uR.x/uR.y,1.);float f=fbm(p*2.2+vec2(uT*.03,uS*.5)+uM*.2);float g=fbm(p*3.+f*1.5-uT*.02);vec3 c=mix(vec3(.0,.0,.02),uTint*.2,f)*.62;c+=uTint*.3*pow(g,3.)*.5;c*=smoothstep(1.2,.15,length(p));c+=h(gl_FragCoord.xy+uT)*.014;c*=.96+.04*(.5+.5*sin(gl_FragCoord.y*1.5+uT*2.));float y=gl_FragCoord.y,L=0.;for(int i=0;i<6;i++){L=max(L,step(uB[i].x,y)*step(y,uB[i].y));}vec3 pc=vec3(.961)+uTint*.018*f-vec3(.012)*smoothstep(.3,1.3,length(p));gl_FragColor=vec4(mix(c,pc,L),1.);}`;
 /** per-shape colour (particles + fog tint), all within the indigo → lilac palette */
 const TN = [[0.56, 0.5, 1], [0.42, 0.36, 0.98], [0.5, 0.45, 1], [0.36, 0.3, 0.96], [0.66, 0.62, 1], [0.84, 0.82, 1], [0.45, 0.4, 0.95], [0.38, 0.33, 0.9],
   [0.55, 0.48, 1], [0.62, 0.56, 1], [0.7, 0.66, 1], [0.48, 0.42, 1], [0.6, 0.52, 1], [0.52, 0.5, 1], [0.66, 0.6, 1], [0.74, 0.7, 1], [0.6, 0.55, 1], [0.7, 0.64, 1]];
@@ -140,9 +145,11 @@ export default function ParticleField() {
     const rn = new Float32Array(N * 4); for (let i = 0; i < rn.length; i++) rn[i] = R();
     g.setAttribute("rnd", new THREE.BufferAttribute(rn, 4));
     const U = { uT: { value: 0 }, uMix: { value: 1 }, uChaos: { value: 0 }, uVel: { value: 0 }, uPx: { value: 3 }, uPulse: { value: -9 }, uFade: { value: 0.8 }, uM: { value: new THREE.Vector2() }, uCol: { value: new THREE.Vector3(...TN[0]) } };
-    const pts = new THREE.Points(g, new THREE.ShaderMaterial({ vertexShader: VS, fragmentShader: FS, uniforms: U, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending }));
+    const BANDS = Array.from({ length: 6 }, () => new THREE.Vector2(-1, -2));
+    Object.assign(U, { uB: { value: BANDS }, uDpr: { value: 1 } });
+    const pts = new THREE.Points(g, new THREE.ShaderMaterial({ vertexShader: VS, fragmentShader: FS, uniforms: U, transparent: true, depthWrite: false, blending: THREE.CustomBlending, blendSrc: THREE.OneFactor, blendDst: THREE.OneMinusSrcAlphaFactor, blendEquation: THREE.AddEquation }));
     pts.frustumCulled = false; pts.renderOrder = 1;
-    const FU = { uTint: { value: new THREE.Vector3(0.36, 0.3, 0.96) }, uT: { value: 0 }, uS: { value: 0 }, uR: { value: new THREE.Vector2(1, 1) }, uM: { value: new THREE.Vector2() } };
+    const FU = { uTint: { value: new THREE.Vector3(0.36, 0.3, 0.96) }, uT: { value: 0 }, uS: { value: 0 }, uR: { value: new THREE.Vector2(1, 1) }, uM: { value: new THREE.Vector2() }, uB: { value: BANDS } };
     const fog = new THREE.Mesh(new THREE.PlaneGeometry(2, 2), new THREE.ShaderMaterial({ vertexShader: "void main(){gl_Position=vec4(position.xy,0.,1.);}", fragmentShader: FOG, uniforms: FU, depthTest: false, depthWrite: false }));
     fog.frustumCulled = false; fog.renderOrder = -1;
     scene.add(fog, pts);
@@ -194,7 +201,8 @@ export default function ParticleField() {
       pts.position.x += ((anc ? anc.cx * halfW : fx.state.gx) - pts.position.x) * 0.05;
       // fit the active shape inside the viewport width (phones/tablets in portrait)
       const fit = Math.max(0.2, Math.min(1, (halfW * (anc ? anc.w * 0.85 : 0.86)) / Math.max(EXT[cur], EXT[fx._shape] ?? 0)));
-      pts.scale.setScalar(pts.scale.x + (fit - pts.scale.x) * 0.06);
+      U.uFade.value += (0.8 * dim - U.uFade.value) * 0.05;
+      pts.scale.setScalar(pts.scale.x + (fit * (dim < 1 ? 0.72 : 1) - pts.scale.x) * 0.06);
       if (FLAT.has(cur) && U.uMix.value > 0.35) { let r = pts.rotation.y; r = (((r + Math.PI) % TAU) + TAU) % TAU - Math.PI; pts.rotation.y = r + (mx * 0.35 - r) * 0.05; }
       else pts.rotation.y += 0.0016 + vel * 0.01 + mx * 0.0008;
       pts.rotation.x += (-my * 0.2 - pts.rotation.x) * 0.04;
@@ -204,11 +212,19 @@ export default function ParticleField() {
     };
     // Hide + pause the field while paper (light) bands dominate the viewport; resume on dark bands.
     const LIGHT = '[data-theme="light"]:not(nav), .section:not([data-theme="dark"])';
-    let frame = 0, onLight = false, hiddenAt = 0;
+    let frame = 0, onLight = false, bandEls: HTMLElement[] = [];
+    // Paper bands are transparent (html.fx-paper) — the canvas paints them: fog → #f5f5f5 and particles switch to ink/normal blending per pixel.
+    const scanBands = () => { bandEls = Array.from(document.querySelectorAll<HTMLElement>(`main ${LIGHT.split(", ").join(", main ")}`)).filter((e) => e.getClientRects().length > 0 && !e.parentElement?.closest(LIGHT)); };
+    const bands = () => {
+      const dpr = renderer.getPixelRatio(), H = window.innerHeight; let k = 0;
+      for (const e of bandEls) { if (k >= 6) break; const r = e.getBoundingClientRect(); if (r.bottom < 0 || r.top > H) continue; BANDS[k++].set((H - r.bottom) * dpr, (H - r.top) * dpr); }
+      for (; k < 6; k++) BANDS[k].set(-1, -2);
+    };
     // Layout-driven anchor: in dark scenes with media beside text, park the shape over the measured text column.
-    let anc: { cx: number; w: number } | null = null, stacked: HTMLElement | null = null;
+    let anc: { cx: number; w: number } | null = null, stacked: HTMLElement | null = null, dim = 1;
     const anchor = () => {
       const vw = window.innerWidth, vh = window.innerHeight, s = (document.elementFromPoint(vw / 2, vh / 2)?.closest("[data-scene]") as HTMLElement | null) || fx.scene;
+      const dv = s && (window.innerWidth < window.innerHeight ? s.dataset.fxDimM ?? s.dataset.fxDim : s.dataset.fxDim); dim = dv ? +dv : 1;
       let best: DOMRect | null = null, bs = 0;
       if (s) s.querySelectorAll<HTMLElement>("[data-fx-text]").forEach((t) => {
         const r = t.getBoundingClientRect(); if (!r.width || r.bottom < 0 || r.top > vh) return;
@@ -226,23 +242,23 @@ export default function ParticleField() {
       let n = 0;
       for (const f of [0.3, 0.5, 0.75]) { const el = document.elementFromPoint(x, H * f); if (el && el.closest(LIGHT) && !el.closest("header")) n++; }
       const l = n >= 2;
-      if (l !== onLight) { onLight = l; cv.style.opacity = l ? "0" : "1"; hiddenAt = performance.now(); fx.light = l; }
+      if (l !== onLight) { onLight = l; fx.light = l; document.documentElement.classList.toggle("on-paper", l); }
     };
     const tick = () => {
       if (!running) return;
       if (++frame % 6 === 0) probe();
-      if (onLight && performance.now() - hiddenAt > 600) return; // faded out: stop rendering
-      render();
+      if (frame % 60 === 1) scanBands();
+      bands(); render();
     };
     if (reduce) { camera.position.z = fx.base; render(); }
-    else gsap.ticker.add(tick);
+    else { scanBands(); gsap.ticker.add(tick); document.documentElement.classList.add("fx-paper"); }
     const vis = () => { running = !document.hidden; };
     document.addEventListener("visibilitychange", vis);
     fx.ready = true;
     (window as unknown as { __fx?: typeof fx }).__fx = fx; // debugging / screenshot hook
     cv.style.opacity = "1";
     return () => {
-      gsap.ticker.remove(tick); off();
+      gsap.ticker.remove(tick); off(); document.documentElement.classList.remove("fx-paper");
       window.removeEventListener("resize", rsz); window.removeEventListener("pointermove", onMove);
       document.removeEventListener("visibilitychange", vis);
       g.dispose(); renderer.dispose(); fx.ready = false;
