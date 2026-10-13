@@ -3,8 +3,16 @@ export const SITE = {
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.evolviq.ai",
   tagline: "Smarter Systems. Better Business.",
   supporting: "AI built around the way your business works.",
-  // TODO: replace with verified details before launch (see content master §13)
-  email: process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "",
+  email: process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "info@evolviqai.com",
+  phone: "(773) 997-1211",
+  address: {
+    label: "Initial Registered Office",
+    streetAddress: "3925 W North Ave",
+    addressLocality: "Chicago",
+    addressRegion: "IL",
+    postalCode: "60647-4617",
+    county: "Cook County",
+  },
   bookingUrl: process.env.NEXT_PUBLIC_BOOKING_URL ?? "",
 };
 

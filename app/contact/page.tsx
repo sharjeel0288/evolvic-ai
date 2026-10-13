@@ -24,6 +24,21 @@ export default function Contact() {
               ? <a className="btn mt-6" href={SITE.bookingUrl} target="_blank" rel="noopener noreferrer">{c.secondary.cta} →</a>
               : <p className="mono mt-6 !text-mut">{c.secondary.cta} — booking link coming soon</p>}
           </Reveal>
+          <Reveal className="nm mt-6 p-8">
+            <h2 className="!text-2xl">Reach us directly</h2>
+            <ul className="mt-4 space-y-3 text-ink/75">
+              <li><a className="ul" href={`tel:${SITE.phone.replace(/[^\d+]/g, "")}`}>{SITE.phone}</a></li>
+              <li><a className="ul" href={`mailto:${SITE.email}`}>{SITE.email}</a></li>
+              <li>
+                <address className="not-italic">
+                  <span className="block text-sm text-mut">{SITE.address.label}</span>
+                  {SITE.address.streetAddress}<br />
+                  {SITE.address.addressLocality}, {SITE.address.addressRegion} {SITE.address.postalCode}<br />
+                  {SITE.address.county}
+                </address>
+              </li>
+            </ul>
+          </Reveal>
         </div>
         <Reveal><ContactForm /></Reveal>
       </section>

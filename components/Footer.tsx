@@ -24,10 +24,14 @@ export default function Footer() {
           <ul className="space-y-2.5">{services.map((s) => <li key={s.id}><Link className="text-[15px] text-ink2 transition-colors hover:text-ink" href={`/solutions#${s.id}`}>{s.short.replace(" & Receptionists", "").replace(" & Customer Support", "").replace(" & Software", "").replace("-Integrated Websites & eCommerce", "-Powered Websites")}</Link></li>)}</ul>
         </div>
         <div>
-          <h2 className="mb-5 text-[12px] font-medium uppercase tracking-[.14em] text-mut">Resources</h2>
+          <h2 className="mb-5 text-[12px] font-medium uppercase tracking-[.14em] text-mut">Contact</h2>
           <ul className="space-y-2.5 text-ink/80">
             <li><Link className="ul" href="/contact#faqs">FAQs</Link></li>
-            <li>{SITE.email ? <a className="ul" href={`mailto:${SITE.email}`}>{SITE.email}</a> : <span className="text-mut">Contact email — coming soon</span>}</li>
+            <li><a className="ul" href={`mailto:${SITE.email}`}>{SITE.email}</a></li>
+            <li><a className="ul" href={`tel:${SITE.phone.replace(/[^\d+]/g, "")}`}>{SITE.phone}</a></li>
+            <li className="max-w-xs text-sm text-mut">
+              {SITE.address.label}: {SITE.address.streetAddress}, {SITE.address.addressLocality}, {SITE.address.addressRegion} {SITE.address.postalCode} ({SITE.address.county})
+            </li>
           </ul>
         </div>
       </div>

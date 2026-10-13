@@ -15,9 +15,23 @@ Requires Node 20+.
 | Var | Purpose |
 |---|---|
 | `NEXT_PUBLIC_SITE_URL` | Canonical host for metadata, sitemap, OG (default `https://www.evolviq.ai`) |
-| `NEXT_PUBLIC_CONTACT_EMAIL` | Shown in footer when verified |
+| `NEXT_PUBLIC_CONTACT_EMAIL` | Public contact email (default `info@evolviqai.com`) |
 | `NEXT_PUBLIC_BOOKING_URL` | "Schedule an AI Consultation" link on /contact |
-| `CONTACT_WEBHOOK_URL` | Contact form forwards JSON here (Zapier/Make/Resend relay…). Without it `/api/contact` returns 503 and the form shows the failure message — success is only shown when delivery is confirmed. |
+| `RESEND_API_KEY` | Server-only Resend API key used by `/api/contact`; never expose it with a `NEXT_PUBLIC_` variable |
+| `RESEND_FROM_EMAIL` | Optional verified sender address for contact inquiries (defaults to `Evolviq AI <onboarding@resend.dev>` for Resend testing) |
+
+The contact form emails submissions to `info@evolviqai.com` through Resend. Configure `RESEND_API_KEY` in `.env.local` for local development and in the deployment provider's server-side environment settings. For production, verify your sending domain in Resend and set `RESEND_FROM_EMAIL` to an address on that domain.
+
+Example `.env.local`:
+
+```dotenv
+NEXT_PUBLIC_SITE_URL=https://www.evolviq.ai
+NEXT_PUBLIC_CONTACT_EMAIL=info@evolviqai.com
+RESEND_API_KEY=re_your_rotated_resend_api_key
+RESEND_FROM_EMAIL="Evolviq AI <contact@your-verified-domain.com>"
+```
+
+Replace the Resend key placeholder with your rotated key. Keep `.env.local` private and never use a `NEXT_PUBLIC_` prefix for the API key.
 
 ## Cinematic engine
 - `components/ParticleField.tsx` — global fixed WebGL (three.js) particle field ported from the original: 12k points (5k mobile) morphing between 8 shapes (core, network, neural, helix, lattice, "AI" glyph, clusters, stack), fbm fog with tint crossfade, mouse repulsion + camera parallax, scroll-velocity jitter, signal pulse. Paused when the tab is hidden; static frame under reduced motion.
@@ -45,4 +59,4 @@ ffmpeg -i input.mp4 -an -vf "scale=1280:-2,fps=24" -c:v libx264 -crf 30 -g 1 -pi
 `-g 1` (every frame a keyframe) makes seeking instant in both scroll directions.
 
 ## Before launch (from the content master)
-Verify domain, email, booking link, policies; connect `CONTACT_WEBHOOK_URL`; confirm rights on the `design-*.webp` images.
+Verify domain, email, booking link, policies; configure Resend; confirm rights on the `design-*.webp` images.
