@@ -18,7 +18,8 @@ Requires Node 20+.
 | `NEXT_PUBLIC_CONTACT_EMAIL` | Public contact email (default `info@evolviqai.com`) |
 | `NEXT_PUBLIC_BOOKING_URL` | "Schedule an AI Consultation" link on /contact |
 | `RESEND_API_KEY` | Server-only Resend API key used by `/api/contact`; never expose it with a `NEXT_PUBLIC_` variable |
-| `RESEND_FROM_EMAIL` | Optional verified sender address for contact inquiries (defaults to `Evolviq AI <onboarding@resend.dev>` for Resend testing) |
+| `RESEND_FROM_EMAIL` | Optional sender address on a domain verified in Resend (defaults to `Evolviq AI <contact@evolviqai.com>`) |
+| `RESEND_TEST_TO` | Optional destination for the Resend test script (defaults to `info@evolviqai.com`) |
 
 The contact form emails submissions to `info@evolviqai.com` through Resend. Configure `RESEND_API_KEY` in `.env.local` for local development and in the deployment provider's server-side environment settings. For production, verify your sending domain in Resend and set `RESEND_FROM_EMAIL` to an address on that domain.
 
@@ -28,10 +29,12 @@ Example `.env.local`:
 NEXT_PUBLIC_SITE_URL=https://www.evolviq.ai
 NEXT_PUBLIC_CONTACT_EMAIL=info@evolviqai.com
 RESEND_API_KEY=re_your_rotated_resend_api_key
-RESEND_FROM_EMAIL="Evolviq AI <contact@your-verified-domain.com>"
+RESEND_FROM_EMAIL="Evolviq AI <contact@evolviqai.com>"
 ```
 
-Replace the Resend key placeholder with your rotated key. Keep `.env.local` private and never use a `NEXT_PUBLIC_` prefix for the API key.
+Replace the key placeholder with your rotated API key. The default sender uses the verified `evolviqai.com` domain; you can override it with any sender address on a domain verified in your Resend account. Keep `.env.local` private and never use a `NEXT_PUBLIC_` prefix for the API key.
+
+Run `npm run test:resend` to send a test email using these settings, or `npm run test:resend -- --dry-run` to check the configuration without sending. The key is read locally and is never printed by the script.
 
 ## Cinematic engine
 - `components/ParticleField.tsx` — global fixed WebGL (three.js) particle field ported from the original: 12k points (5k mobile) morphing between 8 shapes (core, network, neural, helix, lattice, "AI" glyph, clusters, stack), fbm fog with tint crossfade, mouse repulsion + camera parallax, scroll-velocity jitter, signal pulse. Paused when the tab is hidden; static frame under reduced motion.

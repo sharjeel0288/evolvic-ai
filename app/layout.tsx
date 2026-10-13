@@ -14,16 +14,48 @@ const inter = Inter({ subsets: ["latin"], weight: ["400", "500", "600"], variabl
 const geistMono = Geist_Mono({ subsets: ["latin"], variable: "--font-geist-mono", display: "swap" });
 const instrument = Instrument_Serif({ subsets: ["latin"], weight: "400", style: ["normal", "italic"], variable: "--font-instrument", display: "swap" });
 
-export const viewport: Viewport = { themeColor: "#000000", colorScheme: "dark" };
+export const viewport: Viewport = {
+  themeColor: "#000000",
+  colorScheme: "dark",
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
   title: { default: "AI Automation Company & Business AI Solutions | Evolviq AI", template: "%s" },
   description: "Evolviq AI builds AI agents, voice receptionists, chatbots, CRM automations and custom AI solutions that help businesses work smarter and respond faster.",
   applicationName: SITE.name,
-  openGraph: { type: "website", siteName: SITE.name, locale: "en_US", images: [{ url: "/og.png", width: 1200, height: 630, alt: "Evolviq AI — Smarter Systems. Better Business." }] },
+  keywords: ["AI automation", "business AI", "AI agents", "voice agents", "chatbots", "CRM automation", "custom AI", "AI solutions", "AI receptionist", "Evolviq AI"],
+  authors: [{ name: SITE.name }],
+  creator: SITE.name,
+  publisher: SITE.name,
+  category: "Technology",
+  classification: "AI Automation Company",
+  formatDetection: { email: false, address: false, telephone: false },
+  referrer: "origin-when-cross-origin",
+  icons: {
+    icon: "/icon.png",
+    apple: "/apple-icon.png",
+    other: [
+      { rel: "mask-icon", url: "/icon.png", color: "#000000" },
+    ],
+  },
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+    title: SITE.name,
+  },
+  openGraph: {
+    type: "website",
+    siteName: SITE.name,
+    locale: "en_US",
+    images: [{ url: "/og.png", width: 1200, height: 630, alt: "Evolviq AI — Smarter Systems. Better Business." }],
+  },
   twitter: { card: "summary_large_image", images: ["/og.png"] },
   robots: { index: true, follow: true },
+  alternates: { canonical: "/" },
+  verification: {
+    google: "google-site-verification-code",
+  },
 };
 
 const orgLd = {
@@ -33,6 +65,29 @@ const orgLd = {
   url: SITE.url,
   logo: `${SITE.url}/logo.svg`,
   slogan: SITE.tagline,
+  contactPoint: {
+    "@type": "ContactPoint",
+    telephone: SITE.phone,
+    contactType: "sales",
+    areaServed: "US",
+    availableLanguage: ["English"],
+  },
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: SITE.address.streetAddress,
+    addressLocality: SITE.address.addressLocality,
+    addressRegion: SITE.address.addressRegion,
+    postalCode: SITE.address.postalCode,
+  },
+};
+
+const webSiteLd = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: SITE.name,
+  url: SITE.url,
+  description: SITE.supporting,
+  publisher: { "@id": `${SITE.url}/#organization` },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -45,6 +100,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <a href="#main" className="skip btn p">Skip to content</a>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(orgLd) }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webSiteLd) }} />
         <ParticleField />
         <div className="field-dim" aria-hidden />
         <SmoothScroll />
