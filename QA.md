@@ -124,3 +124,14 @@ Dot screenshots: `shots8/dots/<page>-1280.png`. Section screenshots at 4 widths:
 - Every scene on all 7 pages at 1280 and 390 (45 + 45 shots).
 - Every light scene at 1440 and 768 (24 + 24). Light shots were re-taken after the vignette fix.
 - Tablet solutions fit, settled: `check/solutions-768-0.5.png`. The chat-bubble shape sits inside the right column, no overflow.
+
+---
+# QA — Task 10: centred copy and the CTA shape (13 Oct 2026, PKT) · `/workspace/evolviq/shots10/`
+| Issue | Cause | Fix |
+|---|---|---|
+| Big bright dotted sphere behind the CTA headline | The CTA **background video** (`cta-loop`, the orb) at 60% screen blend, which a real GPU shows at full brightness | Video at 45% with a radial **cut-out mask** behind the copy (`.cta-vid`; wider ellipse on portrait). The `data-fx-media` stacking rule is no longer applied to it. |
+| Wrong shape on home Manifesto and CTA (showed "Order", #4) | Pinned ZoomStacks (Principles) and the scroll-video timeline kept calling `setShape` on `onUpdate` when a fast scroll jumped past them, overriding the next scene's shape | ZoomStack `onUpdate` and the ScrollVideo beat callback run only while their trigger `isActive`. Verified: shape = scene shape on every CTA (5), the manifesto (2), and the heroes (0/6/16) at all 4 widths. |
+| Particle shape behind centred copy | — | New `data-fx-place="gap"` mode. The live-measured `[data-fx-copy]` box decides placement: the shape moves into the larger free gap (above or below), scaled to fit the gap height (Y-extent per shape). If the gap is under 16% of the viewport, the shape dims to 15%. Applies to CTA (all pages) and Manifesto always, and to Hero/PageHero on portrait. The radial scrim stays. |
+| CTA buttons half-faded at mid-pin | Scrubbed reveal started late (0.9) | Reveal moved to 0.45 |
+
+Brightness check: `fx.boost = 2.6` (QA hook) during screenshots to approximate real-GPU glow. Copy reads clear in every shot.

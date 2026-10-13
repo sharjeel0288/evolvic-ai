@@ -31,11 +31,11 @@ export default function PageHero({ eyebrow, title, lead, img, shape = 0 }: { eye
     });
   }, { scope: ref });
   return (
-    <section ref={ref} className="hero-grad relative isolate flex h-[100svh] items-end overflow-hidden px-site pb-[12vh]" data-theme="dark" data-fx-dim-m="0.35" data-scene data-shape={String(shape)} data-x="1.9" data-name={eyebrow}>
+    <section ref={ref} className="hero-grad relative isolate flex h-[100svh] items-end overflow-hidden px-site pb-[12vh]" data-theme="dark" data-fx-place-m="gap" data-scene data-shape={String(shape)} data-x="1.9" data-name={eyebrow}>
       <div data-fx-media className="ph-plate plate-mask absolute inset-0 -z-10" aria-hidden>
         <Image src={img} alt="" fill priority sizes="100vw" className="kb object-cover opacity-30 mix-blend-screen" />
       </div>
-      <div className="ph-copy scrim relative max-w-5xl origin-bottom-left">
+      <div data-fx-copy className="ph-copy scrim relative max-w-5xl origin-bottom-left">
         <p className="ph-in mono mb-6 flex items-center gap-3"><span className="led" />{eyebrow}</p>
         <h1 className="ph-h !text-[clamp(34px,5.2vw,84px)]" aria-label={title}>
           {title.split(" ").map((w, k) => <span key={k} aria-hidden className="w">{[...w].map((c, z) => <i key={z}>{c}</i>)} </span>)}

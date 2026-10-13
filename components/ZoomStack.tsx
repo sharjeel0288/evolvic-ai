@@ -24,7 +24,7 @@ export default function ZoomStack({
       gsap.set(it, { autoAlpha: 0, position: "absolute" }); gsap.set(it[0], { autoAlpha: 1 });
       const tl = gsap.timeline({ defaults: { ease: "power3.inOut" }, scrollTrigger: {
         trigger: ref.current, start: "top top", end: `+=${k * span * (mob ? 0.72 : 1)}%`, pin: true, scrub: 1.2, anticipatePin: 1,
-        onUpdate: (s) => { const n = Math.min(k - 1, Math.floor(s.progress * k + 0.2)); if (n !== last) { last = n; onStep?.(n); } },
+        onUpdate: (s) => { if (!s.isActive) return; /* a fast jump past the pin must not override the next scene's shape */ const n = Math.min(k - 1, Math.floor(s.progress * k + 0.2)); if (n !== last) { last = n; onStep?.(n); } },
       } });
       for (let i = 1; i < k; i++) {
         tl.to(it[i - 1], { autoAlpha: 0, scale: 0.92, duration: 0.4 }, i - 0.45)

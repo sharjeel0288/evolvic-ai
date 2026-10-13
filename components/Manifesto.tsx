@@ -29,9 +29,9 @@ export default function Manifesto() {
     e.currentTarget.style.setProperty("--fx", `${e.clientX - r.left}px`); e.currentTarget.style.setProperty("--fy", `${e.clientY - r.top}px`);
   };
   return (
-    <section ref={ref} className="relative flex min-h-[100svh] items-center justify-center px-site py-[12vh] text-center" aria-label="Manifesto" data-fx-dim="0.35"
+    <section ref={ref} className="relative flex min-h-[100svh] items-center justify-center px-site py-[12vh] text-center" aria-label="Manifesto" data-fx-place="gap"
       data-scene data-shape="2" data-x="0" data-name="Manifesto">
-      <div className="mf-wrap flash scrim scrim-strong relative mx-auto max-w-5xl" onPointerMove={move} onPointerLeave={(e) => e.currentTarget.style.setProperty("--fx", "-999px")}>
+      <div data-fx-copy className="mf-wrap flash scrim scrim-strong relative mx-auto max-w-5xl" onPointerMove={move} onPointerLeave={(e) => e.currentTarget.style.setProperty("--fx", "-999px")}>
         <h2 className="!text-[clamp(30px,4.6vw,80px)]" aria-label={home.manifesto.h}>
           <span aria-hidden>{words.map((w, i) => <span key={i} className="wd mr-[.25em] inline-block">{w}</span>)}</span>
         </h2>

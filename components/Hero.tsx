@@ -45,7 +45,7 @@ export default function Hero() {
   }, { scope: ref });
 
   return (
-    <section ref={ref} className="hero-grad relative isolate min-h-[100svh] overflow-hidden" data-theme="dark" aria-labelledby="hero-h" data-fx-dim-m="0.4" data-scene data-shape="0" data-x="1.7" data-name="Signal">
+    <section ref={ref} className="hero-grad relative isolate min-h-[100svh] overflow-hidden" data-theme="dark" aria-labelledby="hero-h" data-fx-place-m="gap" data-scene data-shape="0" data-x="1.7" data-name="Signal">
       <div aria-hidden data-fx-media className="h-plate plate-mask absolute inset-0 -z-10 opacity-40 mix-blend-screen">
         <Video name="hero-loop" className="kb h-full w-full object-cover" autoPlay loop preload="metadata" />
       </div>
@@ -55,7 +55,7 @@ export default function Hero() {
       <div aria-hidden className="dial pointer-events-none absolute right-[9%] top-1/2 -z-[5] h-[min(46vw,520px)] w-[min(46vw,520px)] -translate-y-1/2 animate-[spin_60s_linear_infinite] opacity-30 max-md:hidden motion-reduce:animate-none" />
       <div className="warp" aria-hidden />
       <div className="relative flex min-h-[100svh] flex-col justify-center px-site pb-16 pt-28 md:pb-20 md:pt-32">
-        <div className="h-copy scrim relative max-w-[min(56rem,100%)] origin-left">
+        <div data-fx-copy className="h-copy scrim relative max-w-[min(56rem,100%)] origin-left">
           <p className="hero-in mono mb-6 flex items-center gap-3"><span className="led" /> {h.eyebrow}</p>
           <h1 id="hero-h" className="hero-h hero-fringe !text-[clamp(38px,5.8vw,96px)]" aria-label={h.h1.join(" ")}>
             <SplitHeading as="div" manual text={h.h1[0]} />

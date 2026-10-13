@@ -132,10 +132,11 @@ export default function ParticleField() {
     const camera = new THREE.PerspectiveCamera(50, 1, 0.1, 100);
     const sh = shapes(N);
     // horizontal extent per shape (99.5th percentile of |x|) → used to fit wide shapes on narrow/portrait screens
+    const EXTY = sh.map((a) => { const ys: number[] = []; for (let q = 1; q < a.length; q += 9) ys.push(Math.abs(a[q])); ys.sort((m, n) => m - n); return ys[Math.floor(ys.length * 0.995)] || 1; });
     const EXT = sh.map((a) => { const xs: number[] = []; for (let q = 0; q < a.length; q += 9) xs.push(Math.abs(a[q])); xs.sort((m, n) => m - n); return xs[Math.floor(xs.length * 0.995)] || 1; });
     // 5: sample the real brand wordmark (async; falls back to typed wordmark until loaded)
     const li = new window.Image(); li.decoding = "async";
-    li.onload = () => { const P = raster(1100, 238, 150, (x) => x.drawImage(li, 0, 0, 1100, 238)); if (P.length < 50) return; const f = glyph(P, 0.3), a = new Float32Array(N * 3); for (let i = 0; i < N; i++) { const q = f(i, R()); a[i * 3] = q[0]; a[i * 3 + 1] = q[1]; a[i * 3 + 2] = q[2]; } sh[5] = a; EXT[5] = 3.6; };
+    li.onload = () => { const P = raster(1100, 238, 150, (x) => x.drawImage(li, 0, 0, 1100, 238)); if (P.length < 50) return; const f = glyph(P, 0.3), a = new Float32Array(N * 3); for (let i = 0; i < N; i++) { const q = f(i, R()); a[i * 3] = q[0]; a[i * 3 + 1] = q[1]; a[i * 3 + 2] = q[2]; } sh[5] = a; EXT[5] = 3.6; EXTY[5] = 0.8; };
     li.src = "/brand/logo-white.svg";
     const g = new THREE.BufferGeometry();
     g.setAttribute("position", new THREE.BufferAttribute(new Float32Array(N * 3), 3));
@@ -200,9 +201,12 @@ export default function ParticleField() {
       const halfW = Math.tan((camera.fov * Math.PI) / 360) * camera.position.z * camera.aspect;
       pts.position.x += ((anc ? anc.cx * halfW : fx.state.gx) - pts.position.x) * 0.05;
       // fit the active shape inside the viewport width (phones/tablets in portrait)
-      const fit = Math.max(0.2, Math.min(1, (halfW * (anc ? anc.w * 0.85 : 0.86)) / Math.max(EXT[cur], EXT[fx._shape] ?? 0)));
-      U.uFade.value += (0.8 * dim - U.uFade.value) * 0.05;
-      pts.scale.setScalar(pts.scale.x + (fit * (dim < 1 ? 0.72 : 1) - pts.scale.x) * 0.06);
+      const halfH = Math.tan((camera.fov * Math.PI) / 360) * camera.position.z;
+      pts.position.y += ((place ? -place.cy * halfH : 0) - pts.position.y) * 0.06;
+      let fit = Math.max(0.2, Math.min(1, (halfW * (anc ? anc.w * 0.85 : 0.86)) / Math.max(EXT[cur], EXT[fx._shape] ?? 0)));
+      if (place) fit = Math.min(fit, Math.max(0.12, (halfH * place.h * 0.8) / Math.max(EXTY[cur], EXTY[fx._shape] ?? 0)));
+      U.uFade.value += (0.8 * dim * fx.boost - U.uFade.value) * 0.05;
+      pts.scale.setScalar(pts.scale.x + (fit * (dim < 1 && !place ? 0.72 : 1) - pts.scale.x) * 0.06);
       if (FLAT.has(cur) && U.uMix.value > 0.35) { let r = pts.rotation.y; r = (((r + Math.PI) % TAU) + TAU) % TAU - Math.PI; pts.rotation.y = r + (mx * 0.35 - r) * 0.05; }
       else pts.rotation.y += 0.0016 + vel * 0.01 + mx * 0.0008;
       pts.rotation.x += (-my * 0.2 - pts.rotation.x) * 0.04;
@@ -221,10 +225,19 @@ export default function ParticleField() {
       for (; k < 6; k++) BANDS[k].set(-1, -2);
     };
     // Layout-driven anchor: in dark scenes with media beside text, park the shape over the measured text column.
-    let anc: { cx: number; w: number } | null = null, stacked: HTMLElement | null = null, dim = 1;
+    let anc: { cx: number; w: number } | null = null, stacked: HTMLElement | null = null, dim = 1, place: { cy: number; h: number } | null = null;
     const anchor = () => {
       const vw = window.innerWidth, vh = window.innerHeight, s = (document.elementFromPoint(vw / 2, vh / 2)?.closest("[data-scene]") as HTMLElement | null) || fx.scene;
       const dv = s && (window.innerWidth < window.innerHeight ? s.dataset.fxDimM ?? s.dataset.fxDim : s.dataset.fxDim); dim = dv ? +dv : 1;
+      // Centred copy: never put the shape behind it — park it in the larger free gap (above or below the measured copy box)
+      const portrait = window.innerWidth < window.innerHeight, pm = s && (portrait ? s.dataset.fxPlaceM ?? s.dataset.fxPlace : s.dataset.fxPlace), cp = pm && s ? s.querySelector<HTMLElement>("[data-fx-copy]") : null;
+      if (cp) {
+        const c = cp.getBoundingClientRect(), top = 84, above = c.top - top, below = vh - c.bottom, gap = Math.max(above, below);
+        place = { cy: ((above > below ? (top + c.top) / 2 : (c.bottom + vh) / 2) / vh) * 2 - 1, h: gap / vh };
+        if (gap < vh * 0.16) dim = Math.min(dim, 0.15);
+        anc = null; return;
+      }
+      place = null;
       let best: DOMRect | null = null, bs = 0;
       if (s) s.querySelectorAll<HTMLElement>("[data-fx-text]").forEach((t) => {
         const r = t.getBoundingClientRect(); if (!r.width || r.bottom < 0 || r.top > vh) return;

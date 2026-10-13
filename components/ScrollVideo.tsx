@@ -47,7 +47,7 @@ export default function ScrollVideo() {
       tl.to(st, { t: (i + 2) / (N + 1), duration: 1, ease: "sine.inOut" }, at)
         .fromTo(".rsweep", { xPercent: 0, opacity: 0 }, { xPercent: 400, opacity: 1, duration: 0.5, ease: "power2.inOut", immediateRender: false }, at - 0.15)
         .fromTo(".rvid", { filter: "brightness(1.6) saturate(1.2)" }, { filter: "brightness(1) saturate(1)", duration: 0.4, immediateRender: false }, at - 0.05)
-        .call(() => { const b = tl.scrollTrigger && tl.scrollTrigger.direction < 0 ? i - 1 : i; if (b !== lastBeat && b >= 0) { lastBeat = b; fx.setShape(SH[b % SH.length]); } }, [], at);
+        .call(() => { if (tl.scrollTrigger && !tl.scrollTrigger.isActive) return; const b = tl.scrollTrigger && tl.scrollTrigger.direction < 0 ? i - 1 : i; if (b !== lastBeat && b >= 0) { lastBeat = b; fx.setShape(SH[b % SH.length]); } }, [], at);
       tl.fromTo(e, { autoAlpha: 0, scale: 1.2, y: 40 }, { autoAlpha: 1, scale: 1, y: 0, duration: 0.45 }, at)
         .fromTo(e.querySelectorAll(".w i"), { yPercent: 120 }, { yPercent: 0, stagger: 0.008, duration: 0.4 }, at + 0.05)
         .to(fx.chaos, { value: Math.max(0, 1.1 - i * 0.28), duration: 0.4 }, at);

@@ -14,6 +14,8 @@ export const fx = {
   /** true while a light (paper) band fills the viewport — particle field is hidden/paused */
   light: false,
   introDone: false,
+  /** brightness multiplier (QA hook to approximate real-GPU glow in software-rendered screenshots) */
+  boost: 1,
   /** active scene element (set by FxChrome) — ParticleField reads its [data-fx-text] column */
   scene: null as HTMLElement | null,
   _shape: 0,
