@@ -18,10 +18,9 @@ Requires Node 20+.
 | `NEXT_PUBLIC_CONTACT_EMAIL` | Public contact email (default `info@evolviqai.com`) |
 | `NEXT_PUBLIC_BOOKING_URL` | "Schedule an AI Consultation" link on /contact |
 | `RESEND_API_KEY` | Server-only Resend API key used by `/api/contact`; never expose it with a `NEXT_PUBLIC_` variable |
-| `RESEND_FROM_EMAIL` | Optional sender address on a domain verified in Resend (defaults to `Evolviq AI <contact@evolviqai.com>`) |
 | `RESEND_TEST_TO` | Optional destination for the Resend test script (defaults to `info@evolviqai.com`) |
 
-The contact form emails submissions to `info@evolviqai.com` through Resend. Configure `RESEND_API_KEY` in `.env.local` for local development and in the deployment provider's server-side environment settings. For production, verify your sending domain in Resend and set `RESEND_FROM_EMAIL` to an address on that domain.
+The contact form emails submissions to `info@evolviqai.com` through Resend, using the verified sender `Evolviq AI <contact@evolviqai.com>`. Configure only `RESEND_API_KEY` in `.env.local` for local development and in the deployment provider's server-side environment settings; the sender is fixed in the server route to prevent stale environment settings from overriding it.
 
 Example `.env.local`:
 
@@ -29,10 +28,9 @@ Example `.env.local`:
 NEXT_PUBLIC_SITE_URL=https://www.evolviq.ai
 NEXT_PUBLIC_CONTACT_EMAIL=info@evolviqai.com
 RESEND_API_KEY=re_your_rotated_resend_api_key
-RESEND_FROM_EMAIL="Evolviq AI <contact@evolviqai.com>"
 ```
 
-Replace the key placeholder with your rotated API key. The default sender uses the verified `evolviqai.com` domain; you can override it with any sender address on a domain verified in your Resend account. Keep `.env.local` private and never use a `NEXT_PUBLIC_` prefix for the API key.
+Replace the key placeholder with your rotated API key. Keep `.env.local` private and never use a `NEXT_PUBLIC_` prefix for the API key.
 
 Run `npm run test:resend` to send a test email using these settings, or `npm run test:resend -- --dry-run` to check the configuration without sending. The key is read locally and is never printed by the script.
 

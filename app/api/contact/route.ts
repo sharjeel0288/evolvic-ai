@@ -22,16 +22,10 @@ export async function POST(req: Request) {
   const apiKey = process.env.RESEND_API_KEY;
   if (!apiKey) return NextResponse.json({ ok: false, error: "not_configured" }, { status: 503 });
 
-  const from = process.env.RESEND_FROM_EMAIL?.trim() || "Evolviq AI <contact@evolviqai.com>";
-  if (/your-verified-domain\.com|your_verified_domain/i.test(from)) {
-    console.error("RESEND_FROM_EMAIL still contains the example domain; set it to a verified sender address.");
-    return NextResponse.json({ ok: false, error: "sender_not_configured" }, { status: 503 });
-  }
-
   const resend = new Resend(apiKey);
   try {
     const { error } = await resend.emails.send({
-      from,
+      from: "Evolviq AI <contact@evolviqai.com>",
       to: "info@evolviqai.com",
       replyTo: email,
       subject: "New contact form inquiry",
