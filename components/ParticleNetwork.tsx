@@ -18,7 +18,7 @@ export default function ParticleNetwork({
     let ps: P[] = [];
     const m = { x: -9999, y: -9999 };
     const resize = () => {
-      const r = cv.getBoundingClientRect(); dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const r = cv.getBoundingClientRect(); dpr = Math.min(window.devicePixelRatio || 1, 1.5);
       w = r.width; h = r.height; cv.width = w * dpr; cv.height = h * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       const n = Math.min(110, Math.round(w * h * density));
       ps = Array.from({ length: n }, () => ({ x: Math.random() * w, y: Math.random() * h, vx: (Math.random() - 0.5) * 0.35, vy: (Math.random() - 0.5) * 0.35, r: Math.random() * 1.6 + 0.4, a: Math.random() < 0.12 }));

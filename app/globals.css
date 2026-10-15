@@ -208,3 +208,16 @@ html.on-paper .field-dim { opacity: 0; }
 /* CTA background video (orb): cut out an ellipse behind the centred copy so nothing bright sits under the text */
 .cta-vid { -webkit-mask-image: radial-gradient(ellipse 48% 42% at 50% 46%, transparent 35%, rgba(0,0,0,.35) 70%, #000 100%); mask-image: radial-gradient(ellipse 48% 42% at 50% 46%, transparent 35%, rgba(0,0,0,.35) 70%, #000 100%); }
 @media (max-aspect-ratio: 1/1) { .cta-vid { -webkit-mask-image: radial-gradient(ellipse 70% 34% at 50% 46%, transparent 40%, rgba(0,0,0,.3) 75%, #000 100%); mask-image: radial-gradient(ellipse 70% 34% at 50% 46%, transparent 40%, rgba(0,0,0,.3) 75%, #000 100%); } }
+
+/* ── Task 11: macOS performance ──
+   On Retina Macs every backdrop-filter re-samples the full-screen WebGL canvas behind it each frame (at 2× DPR),
+   which is what made scrolling lag on Mac only. html.is-mac (set in layout <head>) swaps blur for slightly denser
+   translucent fills — same look at a glance, near-zero compositing cost. Other platforms are unchanged. */
+html.is-mac .nm, html.is-mac .glass, html.is-mac .backdrop-blur, html.is-mac .backdrop-blur-xl,
+html.is-mac [data-theme="dark"] .nm, html.is-mac [data-theme="light"] .nm, html.is-mac .section:not([data-theme="dark"]) .nm { -webkit-backdrop-filter: none !important; backdrop-filter: none !important; }
+html.is-mac, html.is-mac [data-theme="dark"] { --nm: rgba(12,12,18,.62); }
+html.is-mac .glass { background: rgba(22,22,32,.55); }
+html.is-mac [data-theme="light"], html.is-mac .section:not([data-theme="dark"]) { --nm: rgba(255,255,255,.8); }
+html.is-mac [data-theme="light"] [data-theme="dark"], html.is-mac .section:not([data-theme="dark"]) [data-theme="dark"] { --nm: rgba(13,15,19,.88); }
+html.is-mac [data-theme="light"] [data-theme="dark"].nm, html.is-mac .section:not([data-theme="dark"]) [data-theme="dark"].nm { background: rgba(13,15,19,.88); }
+html.is-mac.lenis, html.is-mac.lenis body { overscroll-behavior: none; }

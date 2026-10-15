@@ -27,9 +27,11 @@ export default function Hero() {
     };
     if (fx.introDone) intro(); else window.addEventListener("evq:intro", intro, { once: true });
     const mm = gsap.matchMedia();
-    mm.add("(prefers-reduced-motion: no-preference)", () => {
-      const tl = gsap.timeline({ scrollTrigger: { trigger: ref.current, start: "top top", end: "+=170%", scrub: 1.2, pin: true, anticipatePin: 1 } });
-      tl.to(".h-copy", { scale: 1.3, opacity: 0, y: -60, duration: 1, ease: "power3.in" }, 0)
+    mm.add({ d: "(prefers-reduced-motion: no-preference) and (min-width: 768px)", m: "(prefers-reduced-motion: no-preference) and (max-width: 767px)" }, (c) => {
+      // phones: the stacked copy + tiles are taller than the screen, so pin only once the hero's bottom (the tiles) is in view
+      const mob = !!c.conditions?.m;
+      const tl = gsap.timeline({ scrollTrigger: { trigger: ref.current, start: mob ? "bottom bottom" : "top top", end: mob ? "+=140%" : "+=170%", scrub: 1.2, pin: true, anticipatePin: 1, invalidateOnRefresh: true } });
+      tl.to(".h-copy", mob ? { scale: 1.08, opacity: 0, y: -90, duration: 1, ease: "power3.in" } : { scale: 1.3, opacity: 0, y: -60, duration: 1, ease: "power3.in" }, 0)
         .to(".hint", { opacity: 0, duration: 0.3 }, 0)
         .to(".h-plate", { scale: 1.6, opacity: 0, duration: 1.6, ease: "power2.in" }, 0)
         .to(fx.state, { z: 1.2, duration: 1.8, ease: "power2.in" }, 0.1)

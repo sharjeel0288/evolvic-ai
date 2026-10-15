@@ -94,7 +94,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" suppressHydrationWarning className={`${inter.variable} ${sora.variable} ${geistMono.variable} ${instrument.variable}`}>
       <head>
-        <script dangerouslySetInnerHTML={{ __html: `try{if(sessionStorage.getItem("evq-intro")||matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.classList.add("no-intro")}catch(e){}` }} />
+        <script dangerouslySetInnerHTML={{ __html: `try{if(sessionStorage.getItem("evq-intro")||matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.classList.add("no-intro")}catch(e){}try{if(/Mac/.test(navigator.platform||navigator.userAgent)&&!(navigator.maxTouchPoints>1))document.documentElement.classList.add("is-mac")}catch(e){}` }} />
         <noscript><style>{`.ld{display:none!important}`}</style></noscript>
       </head>
       <body>

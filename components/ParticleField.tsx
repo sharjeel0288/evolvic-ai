@@ -127,7 +127,14 @@ export default function ParticleField() {
     let renderer: THREE.WebGLRenderer;
     try { renderer = new THREE.WebGLRenderer({ canvas: cv, antialias: false, powerPreference: "high-performance", alpha: false }); }
     catch { cv.style.display = "none"; return; }
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.25));
+    // Pixel budget: Retina Macs (DPR 2, 1.5–5K CSS px², 120 Hz ProMotion) were rendering ~4× the fragments of a
+    // phone at twice the frame rate. Cap DPR (1 on Mac / very large screens) and adapt further from measured FPS.
+    const MAC = document.documentElement.classList.contains("is-mac");
+    const big = window.innerWidth * window.innerHeight > 1.8e6;
+    const DPR0 = Math.min(window.devicePixelRatio, MAC || big ? 1 : 1.25);
+    const LV = [{ r: DPR0, n: 1 }, { r: Math.min(DPR0, 0.85), n: 0.75 }, { r: Math.min(DPR0, 0.7), n: 0.55 }];
+    let ql = 0;
+    renderer.setPixelRatio(DPR0);
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(50, 1, 0.1, 100);
     const sh = shapes(N);
@@ -257,15 +264,27 @@ export default function ParticleField() {
       const l = n >= 2;
       if (l !== onLight) { onLight = l; fx.light = l; document.documentElement.classList.toggle("on-paper", l); }
     };
+    // Frame pacing: cap the field at ~60 fps (120 Hz displays otherwise double the GPU work for no visible gain)
+    // and step quality down if the measured frame interval stays slow for ~2 s.
+    let lastR = 0, ema = 16.7, slow = 0;
+    const adapt = (dt: number) => {
+      ema += (Math.min(dt, 100) - ema) * 0.05;
+      if (ema > 24 && ql < LV.length - 1) { if (++slow > 120) { ql++; slow = 0; ema = 16.7; renderer.setPixelRatio(LV[ql].r); g.setDrawRange(0, Math.floor(N * LV[ql].n)); rsz(); (fx as unknown as { q?: number }).q = ql; } }
+      else slow = Math.max(0, slow - 1);
+    };
     const tick = () => {
       if (!running) return;
+      const now = performance.now();
+      if (now - lastR < 15) return;
+      if (lastR) adapt(now - lastR);
+      lastR = now;
       if (++frame % 6 === 0) probe();
       if (frame % 60 === 1) scanBands();
       bands(); render();
     };
     if (reduce) { camera.position.z = fx.base; render(); }
     else { scanBands(); gsap.ticker.add(tick); document.documentElement.classList.add("fx-paper"); }
-    const vis = () => { running = !document.hidden; };
+    const vis = () => { running = !document.hidden; lastR = 0; };
     document.addEventListener("visibilitychange", vis);
     fx.ready = true;
     (window as unknown as { __fx?: typeof fx }).__fx = fx; // debugging / screenshot hook

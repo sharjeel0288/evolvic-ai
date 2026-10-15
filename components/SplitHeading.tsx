@@ -25,7 +25,7 @@ export default function SplitHeading({
     );
   }
   const M = motion[as] as ElementType;
-  const trigger = animateOnMount ? { animate: "show" } : { whileInView: "show", viewport: { once: true, margin: "-8% 0px" } };
+  const trigger = animateOnMount ? { animate: "show" } : { whileInView: "show", viewport: { once: true, amount: 0.01, margin: "0px 0px -8% 0px" } };
   return (
     <M id={id} className={className} aria-label={text} initial="hide" {...trigger}
       variants={{ show: { transition: { staggerChildren: 0.018, delayChildren: delay } } }}>

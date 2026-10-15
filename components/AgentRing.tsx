@@ -47,7 +47,7 @@ export default function AgentRing() {
           {a.states.map((s, i) => {
             const ang = (i / a.states.length) * Math.PI * 2 - Math.PI / 2 + Math.PI / 4;
             return (
-              <motion.button key={s.t} type="button" initial={{ scale: 0, opacity: 0 }} whileInView={{ scale: 1, opacity: 1 }} viewport={{ once: true, margin: "-20%" }}
+              <motion.button key={s.t} type="button" initial={{ scale: 0, opacity: 0 }} whileInView={{ scale: 1, opacity: 1 }} viewport={{ once: true, amount: 0.01, margin: "0px 0px -10% 0px" }}
                 transition={{ type: "spring", stiffness: 260, damping: 14, delay: i * 0.15 }} onPointerEnter={() => fx.setShape(12)} onClick={() => setAct(i)} onFocus={() => setPaused(true)} aria-pressed={act === i}
                 className={`btn !absolute !px-4 !py-2.5 ${act === i ? "!border-cyan/70 text-cyan" : ""}`}
                 style={{ left: `${50 + Math.cos(ang) * 37.5}%`, top: `${50 + Math.sin(ang) * 37.5}%`, x: "-50%", y: "-50%" }}>
