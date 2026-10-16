@@ -36,7 +36,8 @@ export default function SmoothScroll() {
     const lenis = new Lenis({ lerp: mac ? 0.12 : 0.09, smoothWheel: true, wheelMultiplier: mac ? 0.85 : 1, syncTouch: false });
     (window as unknown as { __lenis?: Lenis }).__lenis = lenis;
     lenis.on("scroll", ScrollTrigger.update);
-    if (ScrollTrigger.isTouch === 1) ScrollTrigger.normalizeScroll({ allowNestedScroll: true, type: "touch" });
+    // Task 12: no normalizeScroll on touch. It hijacks native touch scrolling (fighting Lenis and iOS momentum),
+    // which on real phones left IntersectionObserver reveals and form focus unreliable. ignoreMobileResize covers the URL bar.
     const tick = (time: number) => lenis.raf(time * 1000);
     gsap.ticker.add(tick);
     gsap.ticker.lagSmoothing(0);
@@ -44,7 +45,6 @@ export default function SmoothScroll() {
       cleanup();
       gsap.ticker.remove(tick);
       lenis.destroy();
-      ScrollTrigger.normalizeScroll(false);
     };
   }, []);
   return null;

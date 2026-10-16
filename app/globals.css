@@ -184,7 +184,8 @@ html { overflow-x: clip; }
 
 /* Media beside text in dark scenes: when the layout stacks / media is full-bleed (text column ≥70% wide),
    ParticleField flags the scene with [data-fx-stack] and the media goes translucent so the shape reads through. */
-[data-fx-stack] [data-fx-media] { opacity: .34 !important; -webkit-mask-image: linear-gradient(180deg, #000 0%, rgba(0,0,0,.55) 60%, transparent 100%); mask-image: linear-gradient(180deg, #000 0%, rgba(0,0,0,.55) 60%, transparent 100%); transition: opacity .6s ease; }
+/* Task 12: content images (Solutions showcase cards) stay solid on phones; only background plates/videos go translucent */
+[data-fx-stack] [data-fx-media]:not(.zs-img) { opacity: .34 !important; -webkit-mask-image: linear-gradient(180deg, #000 0%, rgba(0,0,0,.55) 60%, transparent 100%); mask-image: linear-gradient(180deg, #000 0%, rgba(0,0,0,.55) 60%, transparent 100%); transition: opacity .6s ease; }
 
 /* Dark surfaces over the particle field are see-through (translucent + blur) so shapes read through them.
    Dark cards that sit on paper bands keep an opaque fill (no field behind them, avoids grey wash). */
