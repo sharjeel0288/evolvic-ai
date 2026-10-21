@@ -48,7 +48,7 @@ export const metadata: Metadata = {
     type: "website",
     siteName: SITE.name,
     locale: "en_US",
-    images: [{ url: "/og.png", width: 1200, height: 630, alt: "Evolviq AI — Smarter Systems. Better Business." }],
+    images: [{ url: "/og.png", width: 1200, height: 630, alt: "Evolviq AI: Smarter Systems. Better Business." }],
   },
   twitter: { card: "summary_large_image", images: ["/og.png"] },
   robots: { index: true, follow: true },

@@ -22,7 +22,7 @@ export default function Contact() {
             <p className="mt-3 text-ink/75">{c.secondary.p}</p>
             {SITE.bookingUrl
               ? <a className="btn mt-6" href={SITE.bookingUrl} target="_blank" rel="noopener noreferrer">{c.secondary.cta} →</a>
-              : <p className="mono mt-6 !text-mut">{c.secondary.cta} — booking link coming soon</p>}
+              : <p className="mono mt-6 !text-mut">{c.secondary.cta}: booking link coming soon</p>}
           </Reveal>
           <Reveal className="nm mt-6 p-8">
             <h2 className="!text-2xl">Reach us directly</h2>
